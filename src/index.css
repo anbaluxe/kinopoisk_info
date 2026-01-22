@@ -109,3 +109,7 @@ legend {
 input[type='file'] {
 	max-width: 100%;
 }
+
+body {
+	font-family: 'Montserrat', sans-serif;
+}
