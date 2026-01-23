@@ -13,7 +13,6 @@ import { useState } from 'react'
 
 export const MovieCard = ({ movie }) => {
 	const [isFavorite, setIsFavorite] = useState(false)
-	console.log(movie.votes.kp)
 	return (
 		<Card
 			sx={{
@@ -28,7 +27,7 @@ export const MovieCard = ({ movie }) => {
 
 			<Box
 				sx={{
-					aspectRatio: '2 / 3',
+					height: 500,
 					position: 'relative',
 					bgcolor: 'white',
 					flexShrink: 0,
@@ -48,7 +47,8 @@ export const MovieCard = ({ movie }) => {
 							display: 'flex',
 							alignItems: 'center',
 							justifyContent: 'center',
-							bgcolor: 'grey.900',
+							bgcolor:
+								'linear-gradient(90deg,rgba(0, 0, 0, 1) 45%, rgba(252, 84, 0, 1) 80%, rgba(217, 181, 0, 1) 100%)',
 						}}
 					>
 						<ImageNotSupportedIcon sx={{ fontSize: 56, color: 'grey.500' }} />
