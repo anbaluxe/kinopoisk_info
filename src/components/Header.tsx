@@ -67,7 +67,7 @@ export function Header() {
 								},
 							}}
 						>
-							Фавориты
+							Буду смотреть
 						</Button>
 					</Box>
 

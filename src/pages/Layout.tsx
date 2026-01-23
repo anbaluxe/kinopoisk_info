@@ -1,6 +1,10 @@
 import { Box, Container, Grid, Skeleton } from '@mui/material'
+import { MovieCard } from '../components/MovieCard'
+import { useFetchNew } from '../hooks/useFetchNew'
 
 export default function Layout() {
+	const movie = useFetchNew('2026')
+	console.log(movie)
 	return (
 		<>
 			{/* Full width banner */}
@@ -12,15 +16,21 @@ export default function Layout() {
 				{/* Content */}
 
 				<Grid container spacing={4} sx={{ mb: 6 }}>
-					{Array.from({ length: 9 }).map((_, index) => (
-						<Grid key={index} size={{ xs: 12, sm: 6, md: 4 }}>
-							<Skeleton
-								variant='rectangular'
-								height={400}
-								sx={{ borderRadius: 2 }}
-							/>
-						</Grid>
-					))}
+					{movie.length === 0
+						? Array.from({ length: 9 }).map((_, index) => (
+								<Grid key={index} size={{ xs: 12, sm: 6, md: 4 }}>
+									<Skeleton
+										variant='rectangular'
+										height={700}
+										sx={{ borderRadius: 2 }}
+									/>
+								</Grid>
+							))
+						: movie.map(el => (
+								<Grid key={el.id} size={{ xs: 12, sm: 6, md: 4 }}>
+									<MovieCard movie={el} />
+								</Grid>
+							))}
 				</Grid>
 			</Container>
 		</>
