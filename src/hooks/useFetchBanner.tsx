@@ -9,7 +9,7 @@ export const useFetchBanner = () => {
 		const fetchApi = async () => {
 			try {
 				const res = await fetch(
-					`${BASE_URL}/movie?&field=year&search=2026&sortType=-1&limit=5&selectFields=poster&selectFields=videos&selectFields=name&selectFields=description&selectFields=logo`,
+					`${BASE_URL}/movie?&field=year&search=2026&sortType=-1&limit=1&selectFields=poster&selectFields=videos&selectFields=name&selectFields=description&selectFields=logo`,
 					{
 						headers: {
 							'X-API-KEY': API_KEY,

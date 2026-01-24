@@ -141,6 +141,10 @@ export const MovieBanner = ({ banners }) => {
 								lineHeight: 1.5,
 								maxWidth: 520,
 								mb: 3,
+								display: '-webkit-box',
+								WebkitBoxOrient: 'vertical',
+								WebkitLineClamp: 6,
+								overflow: 'hidden',
 							}}
 						>
 							{banner.description}

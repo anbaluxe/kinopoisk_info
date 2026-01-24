@@ -3,13 +3,13 @@ import { useEffect, useState } from 'react'
 const BASE_URL = import.meta.env.VITE_BASE_URL
 const API_KEY = import.meta.env.VITE_HEADER_API
 
-export const useFetchNew = (year: string) => {
+export const useFetchSearch = search => {
 	const [data, setData] = useState([])
 	useEffect(() => {
 		const fetchApi = async () => {
 			try {
 				const res = await fetch(
-					`${BASE_URL}/movie?field=year&search=${year}&sortField=votes.kp&sortType=-1&limit=1`,
+					`${BASE_URL}/movie?field=name&search=${search}&limit=4`,
 					{
 						headers: {
 							'X-API-KEY': API_KEY,
@@ -26,6 +26,6 @@ export const useFetchNew = (year: string) => {
 			}
 		}
 		fetchApi()
-	}, [year])
+	}, [search])
 	return data
 }
