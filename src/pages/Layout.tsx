@@ -8,7 +8,7 @@ import { useLocalStorage } from '../hooks/useLocalStorage'
 import type { MovieItem } from '../types/MovieItemType'
 
 export default function Layout() {
-	const fetchedMovies = useFetchNew('2025-2026')
+	const fetchedMovies = useFetchNew('2023')
 	const [movies, setMovies] = useState<MovieItem[]>([])
 
 	const [cookie, setCookie] = useLocalStorage<MovieItem[]>('favoritesMovie', [])

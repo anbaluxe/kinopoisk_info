@@ -10,7 +10,7 @@ export const useFetchNew = (year: string) => {
 		const fetchApi = async () => {
 			try {
 				const res = await fetch(
-					`${BASE_URL}?field=year&search=${year}&sortField=votes.kp&sortType=-1&limit=2`,
+					`${BASE_URL}?field=year&search=${year}&sortField=votes.kp&sortType=-1&limit=9`,
 					{
 						headers: {
 							'X-API-KEY': API_KEY,
