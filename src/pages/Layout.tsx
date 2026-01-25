@@ -4,32 +4,45 @@ import { MovieBanner } from '../components/MovieBanner'
 import { MovieCard } from '../components/MovieCard'
 import { useFetchBanner } from '../hooks/useFetchBanner'
 import { useFetchNew } from '../hooks/useFetchNew'
+import { useLocalStorage } from '../hooks/useLocalStorage'
 import type { MovieItem } from '../types/MovieItemType'
 
 export default function Layout() {
 	const fetchedMovies = useFetchNew('2025-2026')
 	const [movies, setMovies] = useState<MovieItem[]>([])
 
-	useEffect(() => {
-		if (fetchedMovies.length) {
-			setMovies(
-				fetchedMovies.map(movie => ({
-					...movie,
-					isFavorite: false,
-				})),
-			)
-		}
-	}, [fetchedMovies])
+	const [cookie, setCookie] = useLocalStorage<MovieItem[]>('favoritesMovie', [])
 
-	const toggleFavorite = (id: number) => {
+	useEffect(() => {
+		if (!fetchedMovies.length) return
+
+		setMovies(prev => {
+			if (prev.length) return prev
+
+			return fetchedMovies.map(movie => ({
+				...movie,
+				isFavorite: cookie.some(fav => fav.id === movie.id),
+			}))
+		})
+	}, [fetchedMovies, cookie])
+
+	const toggleFavorite = (movie: MovieItem) => {
 		setMovies(prev =>
-			prev.map(movie =>
-				movie.id === id ? { ...movie, isFavorite: !movie.isFavorite } : movie,
+			prev.map(m =>
+				m.id === movie.id ? { ...m, isFavorite: !m.isFavorite } : m,
 			),
 		)
-	}
 
-	console.log(movies)
+		setCookie(prev => {
+			const exists = prev.some(m => m.id === movie.id)
+
+			if (exists) {
+				return prev.filter(m => m.id !== movie.id)
+			}
+
+			return [...prev, { ...movie, isFavorite: true }]
+		})
+	}
 
 	const banners: MovieItem[] = useFetchBanner()
 	return (
