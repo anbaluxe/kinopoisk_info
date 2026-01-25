@@ -17,6 +17,19 @@ interface CardProps {
 }
 
 export const MovieCard = ({ movie, toggleFavorite }: CardProps) => {
+	function colors(rating: number) {
+		switch (true) {
+			case rating >= 9:
+				return 'gold'
+			case rating > 6 && rating < 9:
+				return 'green'
+			case rating < 6:
+				return 'red'
+			default:
+				break
+		}
+	}
+
 	return (
 		<Card
 			sx={{
@@ -121,7 +134,11 @@ export const MovieCard = ({ movie, toggleFavorite }: CardProps) => {
 					<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
 						{movie.rating ? (
 							<>
-								<Typography variant='subtitle1' fontWeight={600}>
+								<Typography
+									variant='subtitle1'
+									fontWeight={600}
+									sx={{ color: `${colors(movie.rating.kp)}` }}
+								>
 									{movie.rating.kp.toFixed(1) || null}
 								</Typography>
 								<Typography variant='body2' color='text.secondary'>
@@ -133,7 +150,11 @@ export const MovieCard = ({ movie, toggleFavorite }: CardProps) => {
 					<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
 						{movie.rating ? (
 							<>
-								<Typography variant='subtitle1' fontWeight={600}>
+								<Typography
+									variant='subtitle1'
+									fontWeight={600}
+									sx={{ color: `${colors(movie.rating.imdb)}` }}
+								>
 									{movie.rating.imdb || null}
 								</Typography>
 								<Typography variant='body2' color='text.secondary'>
