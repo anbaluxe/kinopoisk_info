@@ -13,7 +13,7 @@ import type { MovieItem } from '../types/MovieItemType'
 
 interface CardProps {
 	movie: MovieItem
-	toggleFavorite: (id: number) => void
+	toggleFavorite: (movie: MovieItem) => void
 }
 
 export const MovieCard = ({ movie, toggleFavorite }: CardProps) => {
@@ -66,7 +66,7 @@ export const MovieCard = ({ movie, toggleFavorite }: CardProps) => {
 				>
 					<IconButton
 						size='small'
-						onClick={() => toggleFavorite(movie.id)}
+						onClick={() => toggleFavorite(movie)}
 						sx={{
 							bgcolor: 'rgba(0,0,0,0.45)',
 							backdropFilter: 'blur(4px)',
