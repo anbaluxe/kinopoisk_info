@@ -9,15 +9,14 @@ import {
 	IconButton,
 	Typography,
 } from '@mui/material'
-import { useState } from 'react'
 import type { MovieItem } from '../types/MovieItemType'
 
 interface CardProps {
 	movie: MovieItem
+	toggleFavorite: (id: number) => void
 }
 
-export const MovieCard = ({ movie }: CardProps) => {
-	const [isFavorite, setIsFavorite] = useState(false)
+export const MovieCard = ({ movie, toggleFavorite }: CardProps) => {
 	return (
 		<Card
 			sx={{
@@ -67,7 +66,7 @@ export const MovieCard = ({ movie }: CardProps) => {
 				>
 					<IconButton
 						size='small'
-						onClick={() => setIsFavorite(prev => !prev)}
+						onClick={() => toggleFavorite(movie.id)}
 						sx={{
 							bgcolor: 'rgba(0,0,0,0.45)',
 							backdropFilter: 'blur(4px)',
@@ -76,7 +75,7 @@ export const MovieCard = ({ movie }: CardProps) => {
 							},
 						}}
 					>
-						{isFavorite ? (
+						{movie.isFavorite ? (
 							<FavoriteIcon sx={{ color: '#e53935' }} />
 						) : (
 							<FavoriteBorderIcon sx={{ color: '#fff' }} />

@@ -20,7 +20,12 @@ export const useFetchNew = (year: string) => {
 					throw new Error('API Error')
 				}
 				const data = await res.json()
-				setData(data.docs)
+				console.log(data)
+				const docs = data.docs.map(movie => ({
+					...movie,
+					isFavorite: false,
+				}))
+				setData(docs)
 			} catch (error) {
 				console.log(error)
 			}

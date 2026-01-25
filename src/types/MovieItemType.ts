@@ -27,4 +27,5 @@ export type MovieItem = {
 	poster?: Poster
 	logo?: Logo
 	videos?: Video
+	isFavorite: boolean
 }
