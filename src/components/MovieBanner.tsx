@@ -1,7 +1,5 @@
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
-import FavoriteIcon from '@mui/icons-material/Favorite'
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import { Box, Button, IconButton, Stack, Typography } from '@mui/material'
 import { useCallback, useEffect, useState } from 'react'
@@ -14,7 +12,6 @@ interface BannerProps {
 export const MovieBanner = ({ banners }: BannerProps) => {
 	const [id, setId] = useState(0)
 	const [isAnimating, setIsAnimating] = useState(false)
-	const [isFavorite, setIsFavorite] = useState(false)
 
 	const banner = banners[id]
 
@@ -169,7 +166,6 @@ export const MovieBanner = ({ banners }: BannerProps) => {
 
 							<IconButton
 								size='small'
-								onClick={() => setIsFavorite(prev => !prev)}
 								sx={{
 									bgcolor: 'rgba(0,0,0,0.45)',
 									backdropFilter: 'blur(4px)',
@@ -177,13 +173,7 @@ export const MovieBanner = ({ banners }: BannerProps) => {
 										bgcolor: 'rgba(0,0,0,0.6)',
 									},
 								}}
-							>
-								{isFavorite ? (
-									<FavoriteIcon sx={{ color: '#e53935' }} />
-								) : (
-									<FavoriteBorderIcon sx={{ color: '#fff' }} />
-								)}
-							</IconButton>
+							></IconButton>
 						</Stack>
 					</Box>
 				</Box>
