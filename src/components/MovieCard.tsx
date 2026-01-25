@@ -131,7 +131,13 @@ export const MovieCard = ({ movie, toggleFavorite }: CardProps) => {
 						gap: 1.5,
 					}}
 				>
-					<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+					<Box
+						sx={{
+							display: 'flex',
+							alignItems: 'center',
+							gap: 1,
+						}}
+					>
 						{movie.rating ? (
 							<>
 								<Typography
@@ -142,7 +148,9 @@ export const MovieCard = ({ movie, toggleFavorite }: CardProps) => {
 									{movie.rating.kp.toFixed(1) || null}
 								</Typography>
 								<Typography variant='body2' color='text.secondary'>
-									{movie.rating.kp ? 'Кинопоиск' : null}
+									{movie.rating.kp ? (
+										<img src='/kinopoisk.png' width={100} />
+									) : null}
 								</Typography>
 							</>
 						) : null}
@@ -158,7 +166,9 @@ export const MovieCard = ({ movie, toggleFavorite }: CardProps) => {
 									{movie.rating.imdb || null}
 								</Typography>
 								<Typography variant='body2' color='text.secondary'>
-									{movie.rating.imdb ? 'IMDb' : null}
+									{movie.rating.imdb ? (
+										<img src='/imdb.png' width={60} />
+									) : null}
 								</Typography>
 							</>
 						) : null}
