@@ -12,7 +12,12 @@ export default function Layout() {
 
 	useEffect(() => {
 		if (fetchedMovies.length) {
-			setMovies(fetchedMovies)
+			setMovies(
+				fetchedMovies.map(movie => ({
+					...movie,
+					isFavorite: false,
+				})),
+			)
 		}
 	}, [fetchedMovies])
 

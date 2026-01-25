@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
+import type { MovieItem } from '../types/MovieItemType'
 
 const BASE_URL = import.meta.env.VITE_BASE_URL
 const API_KEY = import.meta.env.VITE_HEADER_API
 
 export const useFetchNew = (year: string) => {
-	const [data, setData] = useState([])
+	const [data, setData] = useState<MovieItem[]>([])
 	useEffect(() => {
 		const fetchApi = async () => {
 			try {
@@ -21,11 +22,7 @@ export const useFetchNew = (year: string) => {
 				}
 				const data = await res.json()
 				console.log(data)
-				const docs = data.docs.map(movie => ({
-					...movie,
-					isFavorite: false,
-				}))
-				setData(docs)
+				setData(data.docs)
 			} catch (error) {
 				console.log(error)
 			}
