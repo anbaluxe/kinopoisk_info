@@ -10,8 +10,13 @@ import {
 	Typography,
 } from '@mui/material'
 import { useState } from 'react'
+import type { MovieItem } from '../types/MovieItemType'
 
-export const MovieCard = ({ movie }) => {
+interface CardProps {
+	movie: MovieItem
+}
+
+export const MovieCard = ({ movie }: CardProps) => {
 	const [isFavorite, setIsFavorite] = useState(false)
 	return (
 		<Card
@@ -23,8 +28,6 @@ export const MovieCard = ({ movie }) => {
 				flexDirection: 'column',
 			}}
 		>
-			{/* Image + icons */}
-
 			<Box
 				sx={{
 					height: 500,
@@ -55,7 +58,6 @@ export const MovieCard = ({ movie }) => {
 					</Box>
 				)}
 
-				{/* Icons */}
 				<Box
 					sx={{
 						position: 'absolute',
@@ -83,7 +85,6 @@ export const MovieCard = ({ movie }) => {
 				</Box>
 			</Box>
 
-			{/* Content */}
 			<CardContent
 				sx={{
 					flexGrow: 1,
@@ -110,7 +111,6 @@ export const MovieCard = ({ movie }) => {
 					{movie.description || 'Описание отстутствует'}
 				</Typography>
 
-				{/* Rating */}
 				<Box
 					sx={{
 						display: 'flex',
@@ -120,20 +120,28 @@ export const MovieCard = ({ movie }) => {
 					}}
 				>
 					<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-						<Typography variant='subtitle1' fontWeight={600}>
-							{Math.floor(movie.rating.kp) || null}
-						</Typography>
-						<Typography variant='body2' color='text.secondary'>
-							{movie.rating.kp ? 'Кинопоиск' : null}
-						</Typography>
+						{movie.rating ? (
+							<>
+								<Typography variant='subtitle1' fontWeight={600}>
+									{movie.rating.kp.toFixed(1) || null}
+								</Typography>
+								<Typography variant='body2' color='text.secondary'>
+									{movie.rating.kp ? 'Кинопоиск' : null}
+								</Typography>
+							</>
+						) : null}
 					</Box>
 					<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-						<Typography variant='subtitle1' fontWeight={600}>
-							{movie.rating.imdb || null}
-						</Typography>
-						<Typography variant='body2' color='text.secondary'>
-							{movie.rating.imdb ? 'IMDb' : null}
-						</Typography>
+						{movie.rating ? (
+							<>
+								<Typography variant='subtitle1' fontWeight={600}>
+									{movie.rating.imdb || null}
+								</Typography>
+								<Typography variant='body2' color='text.secondary'>
+									{movie.rating.imdb ? 'IMDb' : null}
+								</Typography>
+							</>
+						) : null}
 					</Box>
 				</Box>
 			</CardContent>

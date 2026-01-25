@@ -4,16 +4,21 @@ import FavoriteIcon from '@mui/icons-material/Favorite'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import { Box, Button, IconButton, Stack, Typography } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import type { MovieItem } from '../types/MovieItemType'
 
-export const MovieBanner = ({ banners }) => {
+interface BannerProps {
+	banners: MovieItem[]
+}
+
+export const MovieBanner = ({ banners }: BannerProps) => {
 	const [id, setId] = useState(0)
 	const [isAnimating, setIsAnimating] = useState(false)
 	const [isFavorite, setIsFavorite] = useState(false)
 
 	const banner = banners[id]
 
-	const next = () => {
+	const next = useCallback(() => {
 		if (isAnimating) return
 
 		setIsAnimating(true)
@@ -22,9 +27,9 @@ export const MovieBanner = ({ banners }) => {
 			setId(prev => (prev >= banners.length - 1 ? 0 : prev + 1))
 			setIsAnimating(false)
 		}, 300)
-	}
+	}, [isAnimating, banners.length])
 
-	const prev = () => {
+	const prev = useCallback(() => {
 		if (isAnimating) return
 
 		setIsAnimating(true)
@@ -33,14 +38,14 @@ export const MovieBanner = ({ banners }) => {
 			setId(prev => (prev <= 0 ? banners.length - 1 : prev - 1))
 			setIsAnimating(false)
 		}, 300)
-	}
+	}, [isAnimating, banners.length])
 
 	useEffect(() => {
 		const timer = setInterval(() => {
 			next()
 		}, 10000)
 		return () => clearInterval(timer)
-	}, [id])
+	}, [next])
 
 	return (
 		<Box
@@ -77,7 +82,7 @@ export const MovieBanner = ({ banners }) => {
 						borderRadius: 25,
 					}}
 				/>
-				{/* Overlay */}
+
 				<Box
 					sx={{
 						position: 'absolute',
@@ -87,7 +92,6 @@ export const MovieBanner = ({ banners }) => {
 					}}
 				/>
 
-				{/* Content */}
 				<Box
 					sx={{
 						position: 'relative',
@@ -99,14 +103,12 @@ export const MovieBanner = ({ banners }) => {
 						maxWidth: '55%',
 					}}
 				>
-					{/* OFFSET CONTAINER — двигает ВСЁ */}
 					<Box
 						sx={{
-							ml: 6, // сдвиг вправо
-							mb: 4, // приподнять вверх
+							ml: 6,
+							mb: 4,
 						}}
 					>
-						{/* LOGO */}
 						{banner.logo?.url && (
 							<Box
 								component='img'
@@ -121,7 +123,6 @@ export const MovieBanner = ({ banners }) => {
 							/>
 						)}
 
-						{/* TITLE */}
 						<Typography
 							variant='h4'
 							sx={{
@@ -133,7 +134,6 @@ export const MovieBanner = ({ banners }) => {
 							{banner.name}
 						</Typography>
 
-						{/* DESCRIPTION */}
 						<Typography
 							sx={{
 								color: 'rgba(255,255,255,0.85)',
@@ -150,13 +150,12 @@ export const MovieBanner = ({ banners }) => {
 							{banner.description}
 						</Typography>
 
-						{/* ACTIONS — ТЕПЕРЬ ТОЖЕ СДВИНУТЫ */}
 						<Stack direction='row' spacing={2} alignItems='center'>
 							<Button
 								variant='contained'
 								startIcon={<PlayArrowIcon />}
-								href={`${banner?.videos?.trailers[0].url}`}
-								disabled={Boolean(!banner?.videos?.trailers[0].url)}
+								href={`${banner?.videos?.trailers[0]?.url}`}
+								disabled={Boolean(!banner?.videos?.trailers[0]?.url)}
 								target='_blank'
 								sx={{
 									px: 4,
