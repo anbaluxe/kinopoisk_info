@@ -9,7 +9,7 @@ import {
 	TextField,
 	Toolbar,
 } from '@mui/material'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useFetchSearch } from '../hooks/useFetchSearch'
 import { SearchResults } from './SearchResult'
 
@@ -38,50 +38,16 @@ export function Header() {
 		}
 	}, [])
 
-	useEffect(() => {
-		const id = setTimeout(() => {
-			const trimmed = inputValue.trim()
-			if (trimmed.length >= 3) {
-				setQuery(trimmed)
-			} else {
-				setQuery('')
-			}
-		}, 500)
-
-		return () => clearTimeout(id)
-	}, [inputValue])
-
 	const searchArr = useFetchSearch(query)
-
-	function sortByStartsWith(items, query) {
-		const q = query.toLowerCase()
-
-		return [...items].sort((a, b) => {
-			const aStarts = a.name.toLowerCase().startsWith(q)
-			const bStarts = b.name.toLowerCase().startsWith(q)
-
-			if (aStarts === bStarts) return 0
-			return aStarts ? -1 : 1
-		})
-	}
-
-	const sortedResults = useMemo(() => {
-		if (!query) return []
-		return sortByStartsWith(searchArr, query)
-	}, [searchArr, query])
-
-	console.log(searchArr)
 
 	return (
 		<AppBar position='static' sx={{ backgroundColor: 'black' }}>
 			<Container maxWidth='xl'>
 				<Toolbar>
-					{/* Лого */}
 					<IconButton edge='start' color='inherit' sx={{ mr: 2 }}>
 						<img src='/favicon.svg' alt='Logo' width={50} height={50} />
 					</IconButton>
 
-					{/* Навигация */}
 					<Box sx={{ display: 'flex', gap: 2, flexGrow: 1 }}>
 						{['Главная', 'Фильмы', 'Сериалы', 'Буду смотреть'].map(label => (
 							<Button
@@ -99,12 +65,10 @@ export function Header() {
 						))}
 					</Box>
 
-					{/* Поиск */}
-
 					<Box
 						ref={searchRef}
 						sx={{
-							position: 'relative', // КРИТИЧЕСКИ ВАЖНО
+							position: 'relative',
 							display: 'flex',
 							alignItems: 'center',
 							gap: 1,
@@ -136,20 +100,19 @@ export function Header() {
 							/>
 						</IconButton>
 
-						{/* Выпадающие результаты */}
 						{openSearch && (
 							<Box
 								sx={{
 									position: 'absolute',
-									top: '100%', // ровно под input
+									top: '100%',
 									right: 0,
 									mt: 1,
 									width: 300,
 									zIndex: 10,
 								}}
 							>
-								{sortedResults.length !== 0 ? (
-									<SearchResults items={sortedResults} />
+								{searchArr.length !== 0 ? (
+									<SearchResults items={searchArr} />
 								) : (
 									<Paper elevation={4}>
 										<Box

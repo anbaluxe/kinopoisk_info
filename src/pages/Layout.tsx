@@ -3,13 +3,14 @@ import { MovieBanner } from '../components/MovieBanner'
 import { MovieCard } from '../components/MovieCard'
 import { useFetchBanner } from '../hooks/useFetchBanner'
 import { useFetchNew } from '../hooks/useFetchNew'
+import type { MovieItem } from '../types/MovieItemType'
 
 export default function Layout() {
-	const movie = useFetchNew('2026')
-	const banners = useFetchBanner()
+	const movie: MovieItem[] = useFetchNew('2025-2026')
+	const banners: MovieItem[] = useFetchBanner()
+	console.log(banners)
 	return (
 		<>
-			{/* Full width banner */}
 			<Container maxWidth='xl'>
 				<Box sx={{ width: '100%', marginBlock: 6 }}>
 					{banners.length === 0 ? (
@@ -18,8 +19,6 @@ export default function Layout() {
 						<MovieBanner banners={banners} />
 					)}
 				</Box>
-
-				{/* Content */}
 
 				<Grid container spacing={4} sx={{ mb: 6 }}>
 					{movie.length === 0

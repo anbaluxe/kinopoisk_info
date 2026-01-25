@@ -1,7 +1,12 @@
 import { Avatar, Box, Paper, Typography } from '@mui/material'
+import type { MovieItem } from '../types/MovieItemType'
 
-export function SearchResults({ items, maxItems = 5, height = 94 }) {
-	const visibleItems = items.slice(0, maxItems)
+interface SearchProps {
+	items: MovieItem[]
+}
+
+export function SearchResults({ items }: SearchProps) {
+	const visibleItems = items.slice(0, 5)
 
 	return (
 		<Paper elevation={4}>
@@ -9,7 +14,7 @@ export function SearchResults({ items, maxItems = 5, height = 94 }) {
 				<Box
 					key={item.id}
 					sx={{
-						height,
+						height: 94,
 						flex: 1,
 						display: 'flex',
 						alignItems: 'center',
