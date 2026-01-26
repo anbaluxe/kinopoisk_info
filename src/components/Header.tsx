@@ -10,6 +10,7 @@ import {
 	Toolbar,
 } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
+import { NavLink } from 'react-router'
 import { useFetchSearch } from '../hooks/useFetchSearch'
 import { SearchResults } from './SearchResult'
 
@@ -49,9 +50,14 @@ export function Header() {
 					</IconButton>
 
 					<Box sx={{ display: 'flex', gap: 2, flexGrow: 1 }}>
-						{['Главная', 'Фильмы', 'Сериалы', 'Буду смотреть'].map(label => (
+						{[
+							{ element: 'Главная', path: '/' },
+							{ element: 'Фильмы', path: '/films' },
+							{ element: 'Сериалы', path: '/tv-show' },
+							{ element: 'Буду смотреть', path: '/favorites' },
+						].map(label => (
 							<Button
-								key={label}
+								key={label.element}
 								color='inherit'
 								sx={{
 									'&:hover': {
@@ -60,7 +66,9 @@ export function Header() {
 									},
 								}}
 							>
-								{label}
+								<NavLink to={label.path} style={{ color: 'inherit' }}>
+									{label.element}
+								</NavLink>
 							</Button>
 						))}
 					</Box>
