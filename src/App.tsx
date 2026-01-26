@@ -1,15 +1,43 @@
-import { Header } from './components/Header'
-// import FavoritesPage from './pages/Favorites'
-import Layout from './pages/Layout'
+import { createBrowserRouter, RouterProvider } from 'react-router'
+import { Layout } from './components/Layout'
+import FavoritesPage from './pages/Favorites'
+import Home from './pages/Home'
+
+/* const router = createBrowserRouter([
+	{
+		path: '/',
+		element: (
+			<>
+				<Header />
+				<Home />
+			</>
+		),
+	},
+	{
+		path: 'favorites',
+		element: <FavoritesPage />,
+	},
+]) */
+
+const router = createBrowserRouter([
+	{
+		path: '/',
+		element: <Layout />,
+		children: [
+			{
+				path: '',
+				element: <Home />,
+			},
+			{
+				path: 'favorites',
+				element: <FavoritesPage />,
+			},
+		],
+	},
+])
 
 function App() {
-	return (
-		<>
-			<Header />
-			<Layout />
-			{/* <FavoritesPage /> */}
-		</>
-	)
+	return <RouterProvider router={router} />
 }
 
 export default App

@@ -7,7 +7,7 @@ import { useFetchNew } from '../hooks/useFetchNew'
 import { useLocalStorage } from '../hooks/useLocalStorage'
 import type { MovieItem } from '../types/MovieItemType'
 
-export default function Layout() {
+export default function Home() {
 	const fetchedMovies = useFetchNew('2023')
 	const [movies, setMovies] = useState<MovieItem[]>([])
 
