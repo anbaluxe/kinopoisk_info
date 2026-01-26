@@ -1,6 +1,7 @@
 import { Box, Button, Container, Grid } from '@mui/material'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { TopYearBadge } from '../components/TopYearBadge'
+import { generateYear } from '../utils/generateYear'
 
 const ITEMS_IN_ROW = 5
 const ROWS_STEP = 2
@@ -13,21 +14,29 @@ export function ItemsPage({ value }: { value: string }) {
 		setVisibleCount(prev => prev + ITEMS_STEP)
 	}
 
+	useEffect(() => {
+		setVisibleCount(ITEMS_STEP)
+	}, [value])
+
+	const yearArray = generateYear()
+
 	return (
 		<Container maxWidth='xl'>
 			<Grid container spacing={4} sx={{ marginBlock: 6 }}>
-				{Array.from({ length: visibleCount }).map((_, index) => (
+				{yearArray.slice(0, visibleCount).map((year, index) => (
 					<Grid key={index} size={{ xs: 12 / ITEMS_IN_ROW }}>
-						<TopYearBadge year={2026} value={value} />
+						<TopYearBadge year={year} value={value} />
 					</Grid>
 				))}
 			</Grid>
 
-			<Box mt={4} display='flex' justifyContent='center'>
-				<Button variant='contained' onClick={handleShowMore}>
-					Показать ещё
-				</Button>
-			</Box>
+			{visibleCount !== yearArray.length ? (
+				<Box mt={4} display='flex' justifyContent='center'>
+					<Button variant='contained' onClick={handleShowMore}>
+						Показать ещё
+					</Button>
+				</Box>
+			) : null}
 		</Container>
 	)
 }
