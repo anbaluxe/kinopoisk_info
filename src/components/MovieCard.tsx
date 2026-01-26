@@ -167,7 +167,7 @@ export const MovieCard = ({ movie, toggleFavorite }: CardProps) => {
 								</Typography>
 								<Typography variant='body2' color='text.secondary'>
 									{movie.rating.imdb ? (
-										<img src='/imdb.png' width={60} />
+										<img src='/imdb.png' width={40} />
 									) : null}
 								</Typography>
 							</>
