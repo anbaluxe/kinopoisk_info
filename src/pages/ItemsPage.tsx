@@ -1,5 +1,6 @@
-import { Box, Button, Container, Grid, Skeleton } from '@mui/material'
+import { Box, Button, Container, Grid } from '@mui/material'
 import { useState } from 'react'
+import { TopYearBadge } from '../components/TopYearBadge'
 
 const ITEMS_IN_ROW = 5
 const ROWS_STEP = 2
@@ -17,11 +18,7 @@ export function ItemsPage({ value }: { value: string }) {
 			<Grid container spacing={4} sx={{ marginBlock: 6 }}>
 				{Array.from({ length: visibleCount }).map((_, index) => (
 					<Grid key={index} size={{ xs: 12 / ITEMS_IN_ROW }}>
-						<Skeleton
-							variant='rectangular'
-							height={150}
-							sx={{ borderRadius: 2 }}
-						/>
+						<TopYearBadge year={2026} value={value} />
 					</Grid>
 				))}
 			</Grid>
