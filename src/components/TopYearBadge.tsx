@@ -2,10 +2,10 @@ import { Box, ButtonBase, Typography } from '@mui/material'
 
 type TopYearBadgeProps = {
 	year: number
-	value: string
+	type: string
 }
 
-export function TopYearBadge({ year, value }: TopYearBadgeProps) {
+export function TopYearBadge({ year, type }: TopYearBadgeProps) {
 	return (
 		<ButtonBase
 			sx={{
@@ -53,7 +53,7 @@ export function TopYearBadge({ year, value }: TopYearBadgeProps) {
 						textAlign: 'center',
 					}}
 				>
-					Топ 10 {value === 'films' ? 'фильмов' : 'сериалов'} <b>{year}</b> года
+					Топ 10 {type === 'films' ? 'фильмов' : 'сериалов'} <b>{year}</b> года
 				</Typography>
 			</Box>
 		</ButtonBase>

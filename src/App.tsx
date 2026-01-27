@@ -31,11 +31,11 @@ const router = createBrowserRouter([
 			},
 			{
 				path: 'films',
-				element: <ItemsPage value={'films'} />,
+				element: <ItemsPage type={'films'} />,
 			},
 			{
 				path: 'tv-show',
-				element: <ItemsPage value={'tv-show'} />,
+				element: <ItemsPage type={'tv-show'} />,
 			},
 			{
 				path: 'favorites',
