@@ -6,6 +6,11 @@ const API_KEY = import.meta.env.VITE_HEADER_API
 export const useFetchSearch = (search: string) => {
 	const [data, setData] = useState([])
 	useEffect(() => {
+		if (search.trim().length < 2) {
+			setData([])
+			return
+		}
+
 		const fetchApi = async () => {
 			try {
 				const res = await fetch(
@@ -16,16 +21,18 @@ export const useFetchSearch = (search: string) => {
 						},
 					},
 				)
-				if (!res.ok) {
-					throw new Error('API Error')
-				}
+
+				if (!res.ok) throw new Error('API Error')
+
 				const data = await res.json()
 				setData(data.docs)
 			} catch (error) {
 				console.log(error)
 			}
 		}
+
 		fetchApi()
 	}, [search])
+
 	return data
 }
