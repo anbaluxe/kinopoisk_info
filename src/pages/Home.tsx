@@ -2,13 +2,12 @@ import { Box, Container, Grid, Skeleton } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { MovieBanner } from '../components/MovieBanner'
 import { MovieCard } from '../components/MovieCard'
-import { useFetchBanner } from '../hooks/useFetchBanner'
 import { useFetchNew } from '../hooks/useFetchNew'
 import { useLocalStorage } from '../hooks/useLocalStorage'
 import type { MovieItem } from '../types/MovieItemType'
 
 export default function Home() {
-	const fetchedMovies = useFetchNew('2023')
+	const fetchedMovies = useFetchNew({ year: 2026 })
 	const [movies, setMovies] = useState<MovieItem[]>([])
 
 	const [cookie, setCookie] = useLocalStorage<MovieItem[]>('favoritesMovie', [])
@@ -44,7 +43,11 @@ export default function Home() {
 		})
 	}
 
-	const banners: MovieItem[] = useFetchBanner()
+	const banners: MovieItem[] = useFetchNew({
+		year: 2026,
+		limit: 5,
+		type: 'banner',
+	})
 	return (
 		<>
 			<Container maxWidth='xl'>

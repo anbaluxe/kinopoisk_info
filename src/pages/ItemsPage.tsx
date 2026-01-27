@@ -7,7 +7,7 @@ const ITEMS_IN_ROW = 5
 const ROWS_STEP = 2
 const ITEMS_STEP = ITEMS_IN_ROW * ROWS_STEP // 10
 
-export function ItemsPage({ value }: { value: string }) {
+export function ItemsPage({ type }: { type: string }) {
 	const [visibleCount, setVisibleCount] = useState(ITEMS_STEP)
 
 	const handleShowMore = () => {
@@ -16,7 +16,7 @@ export function ItemsPage({ value }: { value: string }) {
 
 	useEffect(() => {
 		setVisibleCount(ITEMS_STEP)
-	}, [value])
+	}, [type])
 
 	const yearArray = generateYear()
 
@@ -25,7 +25,7 @@ export function ItemsPage({ value }: { value: string }) {
 			<Grid container spacing={4} sx={{ marginBlock: 6 }}>
 				{yearArray.slice(0, visibleCount).map((year, index) => (
 					<Grid key={index} size={{ xs: 12 / ITEMS_IN_ROW }}>
-						<TopYearBadge year={year} value={value} />
+						<TopYearBadge year={year} type={type} />
 					</Grid>
 				))}
 			</Grid>

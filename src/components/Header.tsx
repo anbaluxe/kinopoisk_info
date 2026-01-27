@@ -40,6 +40,7 @@ export function Header() {
 	}, [])
 
 	const searchArr = useFetchSearch(query)
+	console.log(searchArr)
 
 	return (
 		<AppBar position='static' sx={{ backgroundColor: 'black' }}>
