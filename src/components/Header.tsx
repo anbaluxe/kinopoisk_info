@@ -11,13 +11,13 @@ import {
 } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
 import { NavLink } from 'react-router'
+import { useDebounce } from '../hooks/useDebounce'
 import { useFetchSearch } from '../hooks/useFetchSearch'
 import { SearchResults } from './SearchResult'
 
 export function Header() {
 	const [openSearch, setOpenSearch] = useState(false)
 	const [inputValue, setInputValue] = useState('')
-	const [query, setQuery] = useState('')
 	const searchRef = useRef<HTMLDivElement | null>(null)
 
 	useEffect(() => {
@@ -28,7 +28,6 @@ export function Header() {
 			) {
 				setOpenSearch(false)
 				setInputValue('')
-				setQuery('')
 			}
 		}
 
@@ -39,8 +38,8 @@ export function Header() {
 		}
 	}, [])
 
-	const searchArr = useFetchSearch(query)
-	console.log(searchArr)
+	const debouncedQuery = useDebounce(inputValue, 400)
+	const searchArr = useFetchSearch(debouncedQuery)
 
 	return (
 		<AppBar position='static' sx={{ backgroundColor: 'black' }}>

@@ -163,17 +163,6 @@ export const MovieBanner = ({ banners }: BannerProps) => {
 							>
 								Трейлер
 							</Button>
-
-							<IconButton
-								size='small'
-								sx={{
-									bgcolor: 'rgba(0,0,0,0.45)',
-									backdropFilter: 'blur(4px)',
-									'&:hover': {
-										bgcolor: 'rgba(0,0,0,0.6)',
-									},
-								}}
-							></IconButton>
 						</Stack>
 					</Box>
 				</Box>
