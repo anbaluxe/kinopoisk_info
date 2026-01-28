@@ -23,6 +23,7 @@ type Countries = {
 	name: string
 }
 
+
 type Persons = {
 	name: string
 	photo: string
@@ -45,4 +46,5 @@ export type MovieItem = {
 	countries?: Countries[]
 	genres?: Genres[]
 	persons?: Persons[]
+
 }

@@ -30,9 +30,11 @@ export const useFetchNew = ({
 				`limit=${limit}` +
 				`${typeInfo}`
 			: ''
+
 	const ids = id
 		? `field=id&search=${id}&selectFields=poster&selectFields=videos&selectFields=name&selectFields=description&selectFields=genres&selectFields=countries&selectFields=persons&selectFields=year&`
 		: null
+
 	const [data, setData] = useState<MovieItem[]>([])
 	useEffect(() => {
 		const fetchApi = async () => {
