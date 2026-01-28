@@ -19,6 +19,12 @@ type Video = {
 	]
 }
 
+type Countries = {
+	name: string
+}
+
+type Genres = Countries
+
 export type MovieItem = {
 	id: number
 	name: string
@@ -28,4 +34,7 @@ export type MovieItem = {
 	logo?: Logo
 	videos?: Video
 	isFavorite: boolean
+	year?: number
+	countries?: Countries[]
+	genres?: Genres[]
 }

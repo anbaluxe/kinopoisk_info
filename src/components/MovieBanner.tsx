@@ -70,8 +70,8 @@ export const MovieBanner = ({ banners }: BannerProps) => {
 					sx={{
 						position: 'absolute',
 						right: 80,
-						top: 0,
-						height: '100%',
+						top: 10,
+						height: '95%',
 						width: 'auto',
 						maxWidth: '45%',
 						objectFit: 'contain',
@@ -113,7 +113,7 @@ export const MovieBanner = ({ banners }: BannerProps) => {
 								alt={banner.name}
 								sx={{
 									maxWidth: 220,
-									maxHeight: 80,
+									maxHeight: 70,
 									objectFit: 'contain',
 									mb: 1,
 								}}

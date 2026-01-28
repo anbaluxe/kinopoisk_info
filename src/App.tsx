@@ -3,22 +3,7 @@ import { Layout } from './components/Layout'
 import FavoritesPage from './pages/Favorites'
 import Home from './pages/Home'
 import { ItemsPage } from './pages/ItemsPage'
-
-/* const router = createBrowserRouter([
-	{
-		path: '/',
-		element: (
-			<>
-				<Header />
-				<Home />
-			</>
-		),
-	},
-	{
-		path: 'favorites',
-		element: <FavoritesPage />,
-	},
-]) */
+import { MoviePage } from './pages/MoviePage'
 
 const router = createBrowserRouter([
 	{
@@ -26,7 +11,7 @@ const router = createBrowserRouter([
 		element: <Layout />,
 		children: [
 			{
-				path: '',
+				index: true,
 				element: <Home />,
 			},
 			{
@@ -40,6 +25,10 @@ const router = createBrowserRouter([
 			{
 				path: 'favorites',
 				element: <FavoritesPage />,
+			},
+			{
+				path: 'movie/:idMovie',
+				element: <MoviePage />,
 			},
 		],
 	},

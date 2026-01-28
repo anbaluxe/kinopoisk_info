@@ -5,15 +5,17 @@ const BASE_URL = import.meta.env.VITE_BASE_URL
 const API_KEY = import.meta.env.VITE_HEADER_API
 
 interface useFetchProps {
-	year: number | string
+	year?: number | string
 	limit?: number
 	type?: string
+	id?: string
 }
 
 export const useFetchNew = ({
 	year = 2025,
 	limit = 6,
 	type = '',
+	id,
 }: useFetchProps) => {
 	const typeInfo = type ? `field=typeNumber&search=${type}&` : ''
 	const banner =
@@ -28,15 +30,19 @@ export const useFetchNew = ({
 				`limit=${limit}` +
 				`${typeInfo}`
 			: ''
+	const ids = id ? `field=id&search=${id}` : null
 	const [data, setData] = useState<MovieItem[]>([])
 	useEffect(() => {
 		const fetchApi = async () => {
 			try {
-				const res = await fetch(`${BASE_URL}?` + `${cards ? cards : banner}`, {
-					headers: {
-						'X-API-KEY': API_KEY,
+				const res = await fetch(
+					`${BASE_URL}?` + `${ids ? ids : cards ? cards : banner}`,
+					{
+						headers: {
+							'X-API-KEY': API_KEY,
+						},
 					},
-				})
+				)
 				if (!res.ok) {
 					throw new Error('API Error')
 				}
@@ -48,6 +54,6 @@ export const useFetchNew = ({
 			}
 		}
 		fetchApi()
-	}, [cards, banner])
+	}, [cards, banner, ids])
 	return data
 }
