@@ -46,7 +46,9 @@ export function Header() {
 			<Container maxWidth='xl'>
 				<Toolbar>
 					<IconButton edge='start' color='inherit' sx={{ mr: 2 }}>
-						<img src='/favicon.svg' alt='Logo' width={50} height={50} />
+						<NavLink to={'/'}>
+							<img src='/favicon.svg' alt='Logo' width={50} height={50} />
+						</NavLink>
 					</IconButton>
 
 					<Box sx={{ display: 'flex', gap: 2, flexGrow: 1 }}>

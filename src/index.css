@@ -113,3 +113,7 @@ input[type='file'] {
 body {
 	font-family: 'Montserrat', sans-serif;
 }
+
+a {
+	color: #000;
+}
