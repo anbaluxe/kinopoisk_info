@@ -19,6 +19,11 @@ export const MoviePage = () => {
 	function upperCase(str: string) {
 		return `${str.charAt(0).toUpperCase() + str.slice(1)}`
 	}
+	const actors =
+		item?.persons
+			?.filter(p => p.enProfession === 'actor' && p.photo && p.name)
+			.slice(0, 10) || []
+
 	if (!item) {
 		return null
 	}
@@ -85,14 +90,80 @@ export const MoviePage = () => {
 						justifyContent: 'start',
 					}}
 				>
-					<Typography variant='h4'>{item.name}</Typography>
+					<Typography variant='h4'>{item?.name}</Typography>
 					<Typography variant='subtitle1' color='text.secondary'>
-						{item.year} •{' '}
+						{item?.year} •{' '}
 						{item?.genres?.map(el => upperCase(el.name)).join(', ')} •{' '}
-						{item?.countries?.map(el => el.name)}
+						{item?.countries?.map(el => el.name).join(', ')}
 					</Typography>
 
-					{/* сюда потом добавишь рейтинги, длительность, актёров */}
+					<Card
+						sx={{
+							gridColumn: '1 / 3',
+							p: 3,
+						}}
+					>
+						<Typography variant='h6' gutterBottom>
+							Актёры
+						</Typography>
+
+						<Grid container spacing={2} justifyContent='flex-start'>
+							{actors.map(actor => (
+								<Grid
+									key={actor.id}
+									size={{ xs: 4, sm: 2.4 }}
+									display='flex'
+									justifyContent='center'
+								>
+									<Box
+										sx={{
+											display: 'flex',
+											flexDirection: 'column',
+											alignItems: 'center',
+											width: 96,
+											textAlign: 'center',
+										}}
+									>
+										<Box
+											sx={{
+												width: 88,
+												height: 88,
+												borderRadius: '50%',
+												overflow: 'hidden',
+												mb: 1,
+												boxShadow: 2,
+											}}
+										>
+											<CardMedia
+												component='img'
+												image={actor.photo || '/no-avatar.png'}
+												alt={actor.name}
+												sx={{
+													width: '100%',
+													height: '100%',
+													objectFit: 'cover',
+												}}
+											/>
+										</Box>
+
+										<Typography
+											variant='body2'
+											sx={{
+												fontWeight: 500,
+												lineHeight: 1.2,
+												display: '-webkit-box',
+												WebkitLineClamp: 2,
+												WebkitBoxOrient: 'vertical',
+												overflow: 'hidden',
+											}}
+										>
+											{actor.name}
+										</Typography>
+									</Box>
+								</Grid>
+							))}
+						</Grid>
+					</Card>
 				</Card>
 
 				{/* DESCRIPTION (на 2 колонки) */}
