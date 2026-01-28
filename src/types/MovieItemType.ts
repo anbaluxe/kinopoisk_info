@@ -23,6 +23,14 @@ type Countries = {
 	name: string
 }
 
+
+type Persons = {
+	name: string
+	photo: string
+	enProfession: string
+	id: number
+}
+
 type Genres = Countries
 
 export type MovieItem = {
@@ -37,4 +45,6 @@ export type MovieItem = {
 	year?: number
 	countries?: Countries[]
 	genres?: Genres[]
+	persons?: Persons[]
+
 }
