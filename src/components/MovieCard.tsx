@@ -81,7 +81,11 @@ export const MovieCard = ({ movie, toggleFavorite }: CardProps) => {
 					>
 						<IconButton
 							size='small'
-							onClick={() => toggleFavorite(movie)}
+							onClick={e => {
+								e.preventDefault()
+								e.stopPropagation()
+								toggleFavorite(movie)
+							}}
 							sx={{
 								bgcolor: 'rgba(0,0,0,0.45)',
 								backdropFilter: 'blur(4px)',
