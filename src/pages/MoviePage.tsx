@@ -9,12 +9,14 @@ import {
 	Typography,
 } from '@mui/material'
 import { useParams } from 'react-router'
+import { MoviePageSkeleton } from '../components/MoviePageSkeleton'
 import { useFetchNew } from '../hooks/useFetchNew'
 
 export const MoviePage = () => {
 	const { idMovie } = useParams<{ idMovie: string }>()
 	const items = useFetchNew({ id: idMovie })
-	const item = items[0]
+	const isLoading = items.length === 0
+	const item = items?.[0]
 	function upperCase(str: string) {
 		return `${str.charAt(0).toUpperCase() + str.slice(1)}`
 	}
@@ -23,9 +25,14 @@ export const MoviePage = () => {
 			?.filter(p => p.enProfession === 'actor' && p.photo && p.name)
 			.slice(0, 10) || []
 
+	if (isLoading) {
+		return <MoviePageSkeleton />
+	}
+
 	if (!item) {
 		return null
 	}
+
 	return (
 		<Box sx={{ maxWidth: 1200, mx: 'auto', p: 3 }}>
 			<Grid
@@ -37,7 +44,6 @@ export const MoviePage = () => {
 					gridTemplateRows: 'auto auto',
 				}}
 			>
-				{/* POSTER */}
 				<Box sx={{ position: 'relative' }}>
 					<Card sx={{ height: '100%' }}>
 						<CardMedia
@@ -50,7 +56,7 @@ export const MoviePage = () => {
 							}}
 						/>
 					</Card>
-					{/* Trailer button */}
+
 					{item.videos ? (
 						<Tooltip
 							title={item.videos ? 'Смотреть трейлер' : 'Трейлер недоступен'}
@@ -80,7 +86,6 @@ export const MoviePage = () => {
 					) : null}
 				</Box>
 
-				{/* INFO */}
 				<Card
 					sx={{
 						p: 3,
@@ -165,7 +170,6 @@ export const MoviePage = () => {
 					</Card>
 				</Card>
 
-				{/* DESCRIPTION (на 2 колонки) */}
 				<Card
 					sx={{
 						gridColumn: '1 / 3',
