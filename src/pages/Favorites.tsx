@@ -11,12 +11,14 @@ export default function FavoritesPage() {
 		[],
 	)
 
+	const sortedFavorites = [...favorites].reverse()
+
 	const ITEMS_PER_PAGE = 9
 	const [page, setPage] = useState(1)
 
 	const pageCount = Math.ceil(favorites.length / ITEMS_PER_PAGE)
 
-	const moviesOnPage = favorites.slice(
+	const moviesOnPage = sortedFavorites.slice(
 		(page - 1) * ITEMS_PER_PAGE,
 		page * ITEMS_PER_PAGE,
 	)
