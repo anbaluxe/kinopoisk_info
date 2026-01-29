@@ -4,6 +4,7 @@ import FavoritesPage from './pages/Favorites'
 import Home from './pages/Home'
 import { ItemsPage } from './pages/ItemsPage'
 import { MoviePage } from './pages/MoviePage'
+import { TopMoviesPage } from './pages/TopMoviesPage'
 
 const router = createBrowserRouter([
 	{
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
 			{
 				path: 'movie/:idMovie',
 				element: <MoviePage />,
+			},
+			{
+				path: 'top-year/:type/:year',
+				element: <TopMoviesPage />,
 			},
 		],
 	},

@@ -24,11 +24,11 @@ export const useFetchNew = ({
 			: ''
 	const cards =
 		type === '1' || type === '2' || type.length === 0
-			? `field=year&search=${year}&` +
+			? `${typeInfo}` +
+				`field=year&search=${year}&` +
 				`field=rating.kp&search=7-10&` +
 				`sortField=rating.kp&sortType=1&` +
-				`limit=${limit}` +
-				`${typeInfo}`
+				`limit=${limit}`
 			: ''
 
 	const ids = id
