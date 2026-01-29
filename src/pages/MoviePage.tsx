@@ -15,7 +15,6 @@ export const MoviePage = () => {
 	const { idMovie } = useParams<{ idMovie: string }>()
 	const items = useFetchNew({ id: idMovie })
 	const item = items[0]
-	console.log(item)
 	function upperCase(str: string) {
 		return `${str.charAt(0).toUpperCase() + str.slice(1)}`
 	}
