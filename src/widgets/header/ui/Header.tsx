@@ -1,3 +1,6 @@
+import { SearchResults } from '@/components/SearchResult'
+import { useDebounce } from '@/hooks/useDebounce'
+import { useFetchSearch } from '@/hooks/useFetchSearch'
 import SearchIcon from '@mui/icons-material/Search'
 import {
 	AppBar,
@@ -11,9 +14,6 @@ import {
 } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
 import { NavLink } from 'react-router'
-import { useDebounce } from '../hooks/useDebounce'
-import { useFetchSearch } from '../hooks/useFetchSearch'
-import { SearchResults } from './SearchResult'
 
 export function Header() {
 	const [openSearch, setOpenSearch] = useState(false)

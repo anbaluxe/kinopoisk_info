@@ -1,48 +1,20 @@
+import type { MovieBannerItem } from '@/entities/movie/model/banner/banner.types'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import { Box, Button, IconButton, Stack, Typography } from '@mui/material'
-import { useCallback, useEffect, useState } from 'react'
-import type { MovieItem } from '../types/MovieItemType'
+import { useBannerSlider } from '../model/useBannerSlider'
 
 interface BannerProps {
-	banners: MovieItem[]
+	banners: MovieBannerItem[]
 }
 
 export const MovieBanner = ({ banners }: BannerProps) => {
-	const [id, setId] = useState(0)
-	const [isAnimating, setIsAnimating] = useState(false)
+	const { index, isAnimating, next, prev } = useBannerSlider(banners.length)
 
-	const banner = banners[id]
+	if (!banners.length) return null
 
-	const next = useCallback(() => {
-		if (isAnimating) return
-
-		setIsAnimating(true)
-
-		setTimeout(() => {
-			setId(prev => (prev >= banners.length - 1 ? 0 : prev + 1))
-			setIsAnimating(false)
-		}, 300)
-	}, [isAnimating, banners.length])
-
-	const prev = useCallback(() => {
-		if (isAnimating) return
-
-		setIsAnimating(true)
-
-		setTimeout(() => {
-			setId(prev => (prev <= 0 ? banners.length - 1 : prev - 1))
-			setIsAnimating(false)
-		}, 300)
-	}, [isAnimating, banners.length])
-
-	useEffect(() => {
-		const timer = setInterval(() => {
-			next()
-		}, 10000)
-		return () => clearInterval(timer)
-	}, [next])
+	const banner = banners[index]
 
 	return (
 		<Box
@@ -65,7 +37,7 @@ export const MovieBanner = ({ banners }: BannerProps) => {
 			>
 				<Box
 					component='img'
-					src={banner.poster?.url}
+					src={banner.posterUrl}
 					alt={banner.name}
 					sx={{
 						position: 'absolute',
@@ -106,10 +78,10 @@ export const MovieBanner = ({ banners }: BannerProps) => {
 							mb: 4,
 						}}
 					>
-						{banner.logo?.url && (
+						{banner.logoUrl && (
 							<Box
 								component='img'
-								src={banner.logo.url}
+								src={banner.logoUrl}
 								alt={banner.name}
 								sx={{
 									maxWidth: 220,
@@ -131,28 +103,30 @@ export const MovieBanner = ({ banners }: BannerProps) => {
 							{banner.name}
 						</Typography>
 
-						<Typography
-							sx={{
-								color: 'rgba(255,255,255,0.85)',
-								fontSize: 14,
-								lineHeight: 1.5,
-								maxWidth: 520,
-								mb: 3,
-								display: '-webkit-box',
-								WebkitBoxOrient: 'vertical',
-								WebkitLineClamp: 6,
-								overflow: 'hidden',
-							}}
-						>
-							{banner.description}
-						</Typography>
+						{
+							<Typography
+								sx={{
+									color: 'rgba(255,255,255,0.85)',
+									fontSize: 14,
+									lineHeight: 1.5,
+									maxWidth: 520,
+									mb: 3,
+									display: '-webkit-box',
+									WebkitBoxOrient: 'vertical',
+									WebkitLineClamp: 6,
+									overflow: 'hidden',
+								}}
+							>
+								{banner.description}
+							</Typography>
+						}
 
 						<Stack direction='row' spacing={2} alignItems='center'>
 							<Button
 								variant='contained'
 								startIcon={<PlayArrowIcon />}
-								href={`${banner?.videos?.trailers[0]?.url}`}
-								disabled={Boolean(!banner?.videos?.trailers[0]?.url)}
+								href={`${banner.trailerUrl}`}
+								disabled={Boolean(!banner.trailerUrl)}
 								target='_blank'
 								sx={{
 									px: 4,
@@ -184,8 +158,7 @@ export const MovieBanner = ({ banners }: BannerProps) => {
 								width: 10,
 								height: 10,
 								borderRadius: '50%',
-								backgroundColor: i === id ? '#fff' : 'rgba(255,255,255,0.4)',
-								cursor: 'pointer',
+								backgroundColor: i === index ? '#fff' : 'rgba(255,255,255,0.4)',
 								transition: 'opacity 0.2s',
 								'&:hover': {
 									opacity: 1,
@@ -195,7 +168,6 @@ export const MovieBanner = ({ banners }: BannerProps) => {
 					))}
 				</Stack>
 
-				{/* Arrows */}
 				<IconButton
 					onClick={prev}
 					sx={{

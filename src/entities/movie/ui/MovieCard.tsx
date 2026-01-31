@@ -10,27 +10,27 @@ import {
 	Typography,
 } from '@mui/material'
 import { Link } from 'react-router'
-import type { MovieItem } from '../types/MovieItemType'
+import type { MovieCardTypes } from '../model/card/card.types'
 
 interface CardProps {
-	movie: MovieItem
-	toggleFavorite: (movie: MovieItem) => void
+	movie: MovieCardTypes
+	toggleFavorite: (movie: MovieCardTypes) => void
+}
+
+const getColor = (rating: number) => {
+	switch (true) {
+		case rating >= 9:
+			return 'gold'
+		case rating > 6 && rating < 9:
+			return 'green'
+		case rating < 6:
+			return 'red'
+		default:
+			break
+	}
 }
 
 export const MovieCard = ({ movie, toggleFavorite }: CardProps) => {
-	function colors(rating: number) {
-		switch (true) {
-			case rating >= 9:
-				return 'gold'
-			case rating > 6 && rating < 9:
-				return 'green'
-			case rating < 6:
-				return 'red'
-			default:
-				break
-		}
-	}
-
 	return (
 		<Link to={`/movie/${movie.id}`}>
 			<Card
@@ -50,10 +50,10 @@ export const MovieCard = ({ movie, toggleFavorite }: CardProps) => {
 						flexShrink: 0,
 					}}
 				>
-					{movie.poster ? (
+					{movie.posterUrl ? (
 						<CardMedia
 							component='img'
-							image={movie.poster?.url}
+							image={movie.posterUrl}
 							alt='Movie poster'
 							sx={{ height: '100%', width: '100%', objectFit: 'cover' }}
 						/>
@@ -144,17 +144,17 @@ export const MovieCard = ({ movie, toggleFavorite }: CardProps) => {
 								gap: 1,
 							}}
 						>
-							{movie.rating ? (
+							{movie.ratingKp ? (
 								<>
 									<Typography
 										variant='subtitle1'
 										fontWeight={600}
-										sx={{ color: `${colors(movie.rating.kp)}` }}
+										sx={{ color: `${getColor(movie.ratingKp)}` }}
 									>
-										{movie.rating.kp.toFixed(1) || null}
+										{movie.ratingKp.toFixed(1) || null}
 									</Typography>
 									<Typography variant='body2' color='text.secondary'>
-										{movie.rating.kp ? (
+										{movie.ratingKp ? (
 											<img src='/kinopoisk.png' width={100} />
 										) : null}
 									</Typography>
@@ -162,17 +162,17 @@ export const MovieCard = ({ movie, toggleFavorite }: CardProps) => {
 							) : null}
 						</Box>
 						<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-							{movie.rating ? (
+							{movie.ratingImdb ? (
 								<>
 									<Typography
 										variant='subtitle1'
 										fontWeight={600}
-										sx={{ color: `${colors(movie.rating.imdb)}` }}
+										sx={{ color: `${getColor(movie.ratingImdb)}` }}
 									>
-										{movie.rating.imdb || null}
+										{movie.ratingImdb || null}
 									</Typography>
 									<Typography variant='body2' color='text.secondary'>
-										{movie.rating.imdb ? (
+										{movie.ratingImdb ? (
 											<img src='/imdb.png' width={40} />
 										) : null}
 									</Typography>

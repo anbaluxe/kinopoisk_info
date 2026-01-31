@@ -1,17 +1,20 @@
+import type { MovieCardTypes } from '@/entities/movie/model/card/card.types'
+import { MovieCard } from '@/entities/movie/ui/MovieCard'
+import { useFetchNew } from '@/hooks/useFetchNew'
+import { useLocalStorage } from '@/shared/lib/useLocalStorage'
 import { Card, Container, Grid, Skeleton, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
-import { MovieCard } from '../components/MovieCard'
-import { useFetchNew } from '../hooks/useFetchNew'
-import { useLocalStorage } from '../hooks/useLocalStorage'
-import type { MovieItem } from '../types/MovieItemType'
 
 export const TopMoviesPage = () => {
 	const { type, year } = useParams<{ type: string; year: string }>()
 	const types = type === 'films' ? '1' : '2'
 	const items = useFetchNew({ year: year, limit: 10, type: types })
-	const [movies, setMovies] = useState<MovieItem[]>([])
-	const [cookie, setCookie] = useLocalStorage<MovieItem[]>('favoritesMovie', [])
+	const [movies, setMovies] = useState<MovieCardTypes[]>([])
+	const [cookie, setCookie] = useLocalStorage<MovieCardTypes[]>(
+		'favoritesMovie',
+		[],
+	)
 	useEffect(() => {
 		if (!items) return
 
@@ -25,7 +28,7 @@ export const TopMoviesPage = () => {
 		})
 	}, [items, cookie])
 
-	const toggleFavorite = (movie: MovieItem) => {
+	const toggleFavorite = (movie: MovieCardTypes) => {
 		setMovies(prev =>
 			prev.map(m =>
 				m.id === movie.id ? { ...m, isFavorite: !m.isFavorite } : m,

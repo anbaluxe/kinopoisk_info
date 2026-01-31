@@ -1,3 +1,4 @@
+import { MoviePageSkeleton } from '@/components/MoviePageSkeleton'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import {
 	Box,
@@ -9,8 +10,7 @@ import {
 	Typography,
 } from '@mui/material'
 import { useParams } from 'react-router'
-import { MoviePageSkeleton } from '../components/MoviePageSkeleton'
-import { useFetchNew } from '../hooks/useFetchNew'
+import { useFetchNew } from '../../../hooks/useFetchNew'
 
 export const MoviePage = () => {
 	const { idMovie } = useParams<{ idMovie: string }>()

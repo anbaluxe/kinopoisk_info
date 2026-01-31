@@ -1,13 +1,13 @@
 import { Box, Button, Container, Grid } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { TopYearBadge } from '../components/TopYearBadge'
-import { generateYear } from '../utils/generateYear'
+import { TopYearBadge } from '../../../components/TopYearBadge'
+import { generateYear } from '../../../utils/generateYear'
 
 const ITEMS_IN_ROW = 5
 const ROWS_STEP = 2
 const ITEMS_STEP = ITEMS_IN_ROW * ROWS_STEP // 10
 
-export function ItemsPage({ type }: { type: string }) {
+export function TopByYearPage({ type }: { type: string }) {
 	const [visibleCount, setVisibleCount] = useState(ITEMS_STEP)
 
 	const handleShowMore = () => {

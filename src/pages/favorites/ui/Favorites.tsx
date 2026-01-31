@@ -1,10 +1,9 @@
+import { MovieCard } from '@/entities/movie/ui/MovieCard'
+import { useLocalStorage } from '@/shared/lib/useLocalStorage'
+import type { MovieItem } from '@/types/MovieItemType'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import { Box, Container, Grid, Pagination, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { MovieCard } from '../components/MovieCard'
-import { useLocalStorage } from '../hooks/useLocalStorage'
-import type { MovieItem } from '../types/MovieItemType'
-
 export default function FavoritesPage() {
 	const [favorites, setFavorites] = useLocalStorage<MovieItem[]>(
 		'favoritesMovie',
