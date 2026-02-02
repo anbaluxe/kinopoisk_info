@@ -28,5 +28,5 @@ export type MovieDetailsDto = MoviePreviewDto & {
 		name: string
 		photo: string
 		enProfession: string
-	}
+	}[]
 }

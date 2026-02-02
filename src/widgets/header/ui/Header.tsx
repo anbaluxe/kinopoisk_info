@@ -1,6 +1,6 @@
-import { SearchResults } from '@/components/SearchResult'
-import { useDebounce } from '@/hooks/useDebounce'
-import { useFetchSearch } from '@/hooks/useFetchSearch'
+import { SearchResults } from '@/entities/movie/ui/SearchResult'
+import { useSearchMovie } from '@/features/search/model/useSearchMovie'
+import { useDebounce } from '@/shared/lib/useDebounce'
 import SearchIcon from '@mui/icons-material/Search'
 import {
 	AppBar,
@@ -39,7 +39,7 @@ export function Header() {
 	}, [])
 
 	const debouncedQuery = useDebounce(inputValue, 400)
-	const searchArr = useFetchSearch(debouncedQuery)
+	const searchArr = useSearchMovie(debouncedQuery)
 
 	return (
 		<AppBar position='static' sx={{ backgroundColor: 'black' }}>

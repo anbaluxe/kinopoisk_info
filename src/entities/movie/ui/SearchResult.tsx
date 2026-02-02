@@ -1,9 +1,9 @@
 import { Avatar, Box, Paper, Typography } from '@mui/material'
 import { Link } from 'react-router'
-import type { MovieItem } from '../types/MovieItemType'
+import type { MovieSearchItem } from '../model/search/search.types'
 
 interface SearchProps {
-	items: MovieItem[]
+	items: MovieSearchItem[]
 }
 
 export function SearchResults({ items }: SearchProps) {
@@ -33,7 +33,7 @@ export function SearchResults({ items }: SearchProps) {
 						}}
 					>
 						<Avatar
-							src={item.poster?.url}
+							src={item.posterUrl}
 							variant='rounded'
 							sx={{ width: 68, height: 83, flexShrink: 0 }}
 						/>

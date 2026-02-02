@@ -1,4 +1,5 @@
-import { MoviePageSkeleton } from '@/components/MoviePageSkeleton'
+import { useContentMovie } from '@/features/content-movie/model/useContentMovie'
+import { MoviePageSkeleton } from '@/pages/movie/ui/MoviePageSkeleton'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import {
 	Box,
@@ -10,11 +11,10 @@ import {
 	Typography,
 } from '@mui/material'
 import { useParams } from 'react-router'
-import { useFetchNew } from '../../../hooks/useFetchNew'
 
 export const MoviePage = () => {
 	const { idMovie } = useParams<{ idMovie: string }>()
-	const items = useFetchNew({ id: idMovie })
+	const items = useContentMovie({ id: Number(idMovie) })
 	const isLoading = items.length === 0
 	const item = items?.[0]
 	function upperCase(str: string) {

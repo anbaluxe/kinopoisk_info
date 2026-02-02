@@ -20,7 +20,9 @@ export const fetchMoviesByYear = ({ year, limit, type }: FetchTopParams) => {
 }
 
 export const fetchMovieById = (id: number) =>
-	kinoPoiskFetch<{ docs: MovieDetailsDto[] }>(`field=id&search=${id}`)
+	kinoPoiskFetch<{ docs: MovieDetailsDto[] }>(
+		`field=id&search=${id}&selectFields=poster&selectFields=videos&selectFields=name&selectFields=description&selectFields=genres&selectFields=countries&selectFields=persons&selectFields=year&`,
+	)
 
 export const searchMoviesByName = (query: string) =>
 	kinoPoiskFetch<{ docs: MoviePreviewDto[] }>(

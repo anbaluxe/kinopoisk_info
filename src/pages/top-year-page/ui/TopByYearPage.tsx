@@ -1,6 +1,6 @@
 import { Box, Button, Container, Grid } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { generateYear } from '../../../utils/generateYear'
+import { generateYear } from '../../../shared/lib/date/generateYear'
 import { TopYearBadge } from '../../../widgets/top-year-badge/ui/TopYearBadge'
 
 const ITEMS_IN_ROW = 5
