@@ -1,53 +1,19 @@
-import type { MovieCardTypes } from '@/entities/movie/model/card/card.types'
 import { MovieCard } from '@/entities/movie/ui/MovieCard'
-import { useFetchNew } from '@/hooks/useFetchNew'
-import { useLocalStorage } from '@/shared/lib/useLocalStorage'
+import { useFavoriteMovie } from '@/features/favorite-movie/model/useFavoriteMovie'
+import { useTopByYear } from '@/features/top-by-year/model/useTopByYear'
 import { Card, Container, Grid, Skeleton, Typography } from '@mui/material'
-import { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 
 export const TopMoviesPage = () => {
-	const { type, year } = useParams<{ type: string; year: string }>()
-	const types = type === 'films' ? '1' : '2'
-	const items = useFetchNew({ year: year, limit: 10, type: types })
-	const [movies, setMovies] = useState<MovieCardTypes[]>([])
-	const [cookie, setCookie] = useLocalStorage<MovieCardTypes[]>(
-		'favoritesMovie',
-		[],
-	)
-	useEffect(() => {
-		if (!items) return
+	const { type, year } = useParams<{
+		type: string
+		year: string
+	}>()
+	const contentType = type === 'films' ? 'films' : 'tv-show'
+	const movies = useTopByYear({ year: Number(year), type: contentType })
+	const { toggleFavorite, isFavorite } = useFavoriteMovie()
 
-		setMovies(prev => {
-			if (prev.length) return prev
-
-			return items.map(movie => ({
-				...movie,
-				isFavorite: cookie.some(fav => fav.id === movie.id),
-			}))
-		})
-	}, [items, cookie])
-
-	const toggleFavorite = (movie: MovieCardTypes) => {
-		setMovies(prev =>
-			prev.map(m =>
-				m.id === movie.id ? { ...m, isFavorite: !m.isFavorite } : m,
-			),
-		)
-
-		setCookie(prev => {
-			const exists = prev.some(m => m.id === movie.id)
-
-			if (exists) {
-				return prev.filter(m => m.id !== movie.id)
-			}
-
-			return [...prev, { ...movie, isFavorite: true }]
-		})
-	}
-
-	const isLoading = items.length === 0
-
+	const isLoading = movies.length === 0
 	const isLastRowSingle = movies.length % 3 === 1
 
 	return (
@@ -58,7 +24,7 @@ export const TopMoviesPage = () => {
 				marginBlock={5}
 				textAlign={'center'}
 			>
-				Топ 10 лучших {types === '1' ? 'фильмов' : 'сериалов'} {year}
+				Топ 10 лучших {type === 'films' ? 'фильмов' : 'сериалов'} {year}
 			</Typography>
 
 			<Grid
@@ -81,7 +47,11 @@ export const TopMoviesPage = () => {
 					movies.map(movie => (
 						<Grid key={movie.id} size={{ xs: 12, sm: 6, md: 4 }}>
 							<Card sx={{ height: 700 }}>
-								<MovieCard movie={movie} toggleFavorite={toggleFavorite} />
+								<MovieCard
+									movie={movie}
+									isFavorite={isFavorite(movie.id)}
+									toggleFavorite={toggleFavorite}
+								/>
 							</Card>
 						</Grid>
 					))}

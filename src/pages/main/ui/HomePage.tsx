@@ -8,9 +8,7 @@ import { MovieBanner } from '../../../widgets/movie-banner/ui/MovieBanner'
 export default function HomePage() {
 	const movies = useContentPreview({ year: 2026 })
 	const banners = useBannerList({ year: 2026 })
-	const { toggleFavorite } = useFavoriteMovie()
-
-	console.log(movies)
+	const { toggleFavorite, isFavorite } = useFavoriteMovie()
 
 	return (
 		<>
@@ -25,7 +23,7 @@ export default function HomePage() {
 
 				<Grid container spacing={4} sx={{ mb: 6 }}>
 					{movies.length === 0
-						? Array.from({ length: 9 }).map((_, index) => (
+						? Array.from({ length: 6 }).map((_, index) => (
 								<Grid key={index} size={{ xs: 12, sm: 6, md: 4 }}>
 									<Skeleton
 										variant='rectangular'
@@ -36,7 +34,11 @@ export default function HomePage() {
 							))
 						: movies.map(el => (
 								<Grid key={el.id} size={{ xs: 12, sm: 6, md: 4 }}>
-									<MovieCard movie={el} toggleFavorite={toggleFavorite} />
+									<MovieCard
+										movie={el}
+										isFavorite={isFavorite(el.id)}
+										toggleFavorite={toggleFavorite}
+									/>
 								</Grid>
 							))}
 				</Grid>

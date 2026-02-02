@@ -3,20 +3,26 @@ import type { MovieCardTypes } from '@/entities/movie/model/card/card.types'
 import { fetchMoviesByYear } from '@/shared/api/kinopoisk/queries'
 import { useEffect, useState } from 'react'
 
-type Props = {
-	year: number
-	limit?: number
-	type?: '1' | '2'
-}
+type ContentType = 'films' | 'tv-show'
 
-export const useTopMovies = ({ year, limit = 6, type = '1' }: Props) => {
+export const useTopByYear = ({
+	year,
+	type,
+	limit = 10,
+}: {
+	year: number
+	type: ContentType
+	limit?: number
+}) => {
 	const [movies, setMovies] = useState<MovieCardTypes[]>([])
 
 	useEffect(() => {
-		fetchMoviesByYear({ year, limit, type }).then(res => {
+		const apiType = type === 'films' ? '1' : '2'
+
+		fetchMoviesByYear({ year, limit, type: apiType }).then(res => {
 			setMovies(res.docs.map(mapMovieToCard))
 		})
-	}, [year, limit, type])
+	}, [year, type, limit])
 
 	return movies
 }

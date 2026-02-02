@@ -1,36 +1,12 @@
 import { MovieCard } from '@/entities/movie/ui/MovieCard'
-import { useLocalStorage } from '@/shared/lib/useLocalStorage'
-import type { MovieItem } from '@/types/MovieItemType'
+import { useFavoriteMovie } from '@/features/favorite-movie/model/useFavoriteMovie'
+import { useFavoriteList } from '@/shared/lib/useFavoriteList'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import { Box, Container, Grid, Pagination, Typography } from '@mui/material'
-import { useEffect, useState } from 'react'
 export default function FavoritesPage() {
-	const [favorites, setFavorites] = useLocalStorage<MovieItem[]>(
-		'favoritesMovie',
-		[],
-	)
+	const { favorites, toggleFavorite, isFavorite } = useFavoriteMovie()
 
-	const sortedFavorites = [...favorites].reverse()
-
-	const ITEMS_PER_PAGE = 9
-	const [page, setPage] = useState(1)
-
-	const pageCount = Math.ceil(favorites.length / ITEMS_PER_PAGE)
-
-	const moviesOnPage = sortedFavorites.slice(
-		(page - 1) * ITEMS_PER_PAGE,
-		page * ITEMS_PER_PAGE,
-	)
-
-	const removeFromFavorites = (movie: MovieItem) => {
-		setFavorites(prev => prev.filter(m => m.id !== movie.id))
-	}
-
-	useEffect(() => {
-		if (page > 1 && moviesOnPage.length === 0) {
-			setPage(prev => prev - 1)
-		}
-	}, [moviesOnPage.length, page])
+	const { moviesOnPage, page, setPage, pageCount } = useFavoriteList(favorites)
 
 	if (!favorites.length) {
 		return (
@@ -65,7 +41,11 @@ export default function FavoritesPage() {
 			<Grid container spacing={4} sx={{ mb: 5, marginBlock: 5 }}>
 				{moviesOnPage.map(movie => (
 					<Grid key={movie.id} size={{ xs: 12, sm: 6, md: 4 }}>
-						<MovieCard movie={movie} toggleFavorite={removeFromFavorites} />
+						<MovieCard
+							movie={movie}
+							isFavorite={isFavorite(movie.id)}
+							toggleFavorite={toggleFavorite}
+						/>
 					</Grid>
 				))}
 			</Grid>

@@ -14,6 +14,7 @@ import type { MovieCardTypes } from '../model/card/card.types'
 
 interface CardProps {
 	movie: MovieCardTypes
+	isFavorite: boolean
 	toggleFavorite: (movie: MovieCardTypes) => void
 }
 
@@ -30,7 +31,7 @@ const getColor = (rating: number) => {
 	}
 }
 
-export const MovieCard = ({ movie, toggleFavorite }: CardProps) => {
+export const MovieCard = ({ movie, toggleFavorite, isFavorite }: CardProps) => {
 	return (
 		<Link to={`/movie/${movie.id}`}>
 			<Card
@@ -94,7 +95,7 @@ export const MovieCard = ({ movie, toggleFavorite }: CardProps) => {
 								},
 							}}
 						>
-							{movie.isFavorite ? (
+							{isFavorite ? (
 								<FavoriteIcon sx={{ color: '#e53935' }} />
 							) : (
 								<FavoriteBorderIcon sx={{ color: '#fff' }} />

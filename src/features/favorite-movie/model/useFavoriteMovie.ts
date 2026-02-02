@@ -1,21 +1,24 @@
-import type { MoviePreviewDto } from '@/shared/api/kinopoisk/types'
+import type { MovieCardTypes } from '@/entities/movie/model/card/card.types'
 import { useLocalStorage } from '@/shared/lib/useLocalStorage'
 
 export const useFavoriteMovie = () => {
-	const [favorites, setFavorites] = useLocalStorage<MoviePreviewDto[]>(
+	const [favorites, setFavorites] = useLocalStorage<MovieCardTypes[]>(
 		'favoritesMovie',
 		[],
 	)
 
 	const isFavorite = (id: number) => favorites.some(movie => movie.id === id)
 
-	const toggleFavorite = (movie: MoviePreviewDto) => {
-		setFavorites(prev =>
-			prev.some(m => m.id === movie.id)
-				? prev.filter(m => m.id !== movie.id)
-				: [...prev, { ...movie, isFavorite: true }],
-		)
+	const toggleFavorite = (movie: MovieCardTypes) => {
+		setFavorites(prev => {
+			const exists = prev.some(m => m.id === movie.id)
+			if (exists) {
+				return prev.filter(m => m.id !== movie.id)
+			}
+
+			return [...prev, { ...movie, isFavorite: true }]
+		})
 	}
 
-	return { isFavorite, toggleFavorite }
+	return { favorites, isFavorite, toggleFavorite }
 }

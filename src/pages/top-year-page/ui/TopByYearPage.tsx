@@ -1,7 +1,7 @@
 import { Box, Button, Container, Grid } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { TopYearBadge } from '../../../components/TopYearBadge'
 import { generateYear } from '../../../utils/generateYear'
+import { TopYearBadge } from '../../../widgets/top-year-badge/ui/TopYearBadge'
 
 const ITEMS_IN_ROW = 5
 const ROWS_STEP = 2
