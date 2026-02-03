@@ -1,4 +1,5 @@
 import { Header } from '@/widgets/header/ui/Header'
+import { DvdScreensaver } from '@/widgets/dvd-screensaver/ui/DvdScreensaver'
 import { Outlet, useMatches } from 'react-router'
 
 type RouteHandle = { hideHeader?: boolean }
@@ -18,6 +19,7 @@ export const Layout = () => {
 			<main>
 				<Outlet />
 			</main>
+			<DvdScreensaver />
 		</>
 	)
 }
