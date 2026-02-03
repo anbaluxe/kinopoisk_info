@@ -107,6 +107,7 @@ const MovieBannerComponent = ({ banners }: BannerProps) => {
 									maxHeight: { xs: 56, md: 70 },
 									objectFit: 'contain',
 									mb: 1,
+									display: { xs: 'none', md: 'block' },
 								}}
 							/>
 						)}
