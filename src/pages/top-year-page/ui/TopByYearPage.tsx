@@ -1,4 +1,4 @@
-import { Box, Button, Container, Grid } from '@mui/material'
+import { Box, Button, Container } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { generateYear } from '../../../shared/lib/date/generateYear'
 import { TopYearBadge } from '../../../widgets/top-year-badge/ui/TopYearBadge'
@@ -22,13 +22,25 @@ export function TopByYearPage({ type }: { type: string }) {
 
 	return (
 		<Container maxWidth='xl'>
-			<Grid container spacing={4} sx={{ marginBlock: 6 }}>
+			<Box
+				sx={{
+					display: 'grid',
+					gridTemplateColumns: {
+						xs: 'repeat(2, minmax(0, 1fr))',
+						sm: 'repeat(3, minmax(0, 1fr))',
+						md: 'repeat(4, minmax(0, 1fr))',
+						lg: 'repeat(5, minmax(0, 1fr))',
+					},
+					gap: { xs: 2, sm: 3, md: 4 },
+					marginBlock: 6,
+				}}
+			>
 				{yearArray.slice(0, visibleCount).map((year, index) => (
-					<Grid key={index} size={{ xs: 12 / ITEMS_IN_ROW }}>
+					<Box key={index} display='flex' justifyContent='center'>
 						<TopYearBadge year={year} type={type} />
-					</Grid>
+					</Box>
 				))}
-			</Grid>
+			</Box>
 
 			{visibleCount !== yearArray.length ? (
 				<Box mt={4} display='flex' justifyContent='center'>

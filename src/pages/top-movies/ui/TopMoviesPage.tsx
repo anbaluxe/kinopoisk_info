@@ -28,7 +28,7 @@ export const TopMoviesPage = () => {
 		() =>
 			Array.from({ length: 10 }).map((_, index) => (
 				<Grid key={index} size={{ xs: 12, sm: 6, md: 4 }}>
-					<MovieCardSkeleton height={700} />
+					<MovieCardSkeleton height={{ xs: 560, sm: 620, md: 700 }} />
 				</Grid>
 			)),
 		[],
@@ -37,7 +37,7 @@ export const TopMoviesPage = () => {
 		() =>
 			movies.map(movie => (
 				<Grid key={movie.id} size={{ xs: 12, sm: 6, md: 4 }}>
-					<Card sx={{ height: 700 }}>
+					<Card sx={{ height: { xs: 560, sm: 620, md: 700 } }}>
 						<MovieCard
 							movie={movie}
 							isFavorite={isFavorite(movie.id)}

@@ -16,6 +16,7 @@ const MovieBannerComponent = ({ banners }: BannerProps) => {
 	if (!banners.length) return null
 
 	const banner = banners[index]
+	let touchStartX = 0
 
 	return (
 		<Box
@@ -31,9 +32,19 @@ const MovieBannerComponent = ({ banners }: BannerProps) => {
 				sx={{
 					width: '100%',
 					position: 'relative',
-					height: 500,
+					height: { xs: 360, sm: 420, md: 500 },
 					borderRadius: 4,
 					overflow: 'hidden',
+				}}
+				onTouchStart={event => {
+					touchStartX = event.touches[0]?.clientX ?? 0
+				}}
+				onTouchEnd={event => {
+					const touchEndX = event.changedTouches[0]?.clientX ?? 0
+					const delta = touchEndX - touchStartX
+					if (Math.abs(delta) < 40) return
+					if (delta < 0) next()
+					if (delta > 0) prev()
 				}}
 			>
 				<Box
@@ -41,15 +52,16 @@ const MovieBannerComponent = ({ banners }: BannerProps) => {
 					src={banner.posterUrl}
 					alt={banner.name}
 					sx={{
-						position: 'absolute',
-						right: 80,
-						top: 10,
-						height: '95%',
-						width: 'auto',
-						maxWidth: '45%',
+						position: { xs: 'absolute', md: 'absolute' },
+						right: { xs: 16, md: 80 },
+						top: { xs: 16, md: 10 },
+						height: { xs: '60%', sm: '70%', md: '95%' },
+						width: { xs: 'auto', md: 'auto' },
+						maxWidth: { xs: '55%', md: '45%' },
 						objectFit: 'contain',
 						zIndex: 1,
-						borderRadius: 25,
+						borderRadius: { xs: 16, md: 25 },
+						display: { xs: 'none', md: 'block' },
 					}}
 				/>
 
@@ -68,15 +80,21 @@ const MovieBannerComponent = ({ banners }: BannerProps) => {
 						height: '100%',
 						display: 'flex',
 						flexDirection: 'column',
-						justifyContent: 'flex-end',
-						p: 4,
-						maxWidth: '55%',
+						justifyContent: { xs: 'center', md: 'flex-end' },
+						p: { xs: 2, sm: 3, md: 4 },
+						maxWidth: { xs: '100%', md: '55%' },
+						textAlign: { xs: 'center', md: 'left' },
+						alignItems: { xs: 'center', md: 'flex-start' },
 					}}
 				>
 					<Box
 						sx={{
-							ml: 6,
-							mb: 4,
+							ml: { xs: 0, md: 6 },
+							mb: { xs: 2, md: 4 },
+							width: { xs: '100%', md: 'auto' },
+							display: 'flex',
+							flexDirection: 'column',
+							alignItems: { xs: 'center', md: 'flex-start' },
 						}}
 					>
 						{banner.logoUrl && (
@@ -85,8 +103,8 @@ const MovieBannerComponent = ({ banners }: BannerProps) => {
 								src={banner.logoUrl}
 								alt={banner.name}
 								sx={{
-									maxWidth: 220,
-									maxHeight: 70,
+									maxWidth: { xs: 160, md: 220 },
+									maxHeight: { xs: 56, md: 70 },
 									objectFit: 'contain',
 									mb: 1,
 								}}
@@ -99,6 +117,7 @@ const MovieBannerComponent = ({ banners }: BannerProps) => {
 								color: '#fff',
 								fontWeight: 700,
 								mb: 1,
+								fontSize: { xs: 22, sm: 28, md: 34 },
 							}}
 						>
 							{banner.name}
@@ -108,10 +127,10 @@ const MovieBannerComponent = ({ banners }: BannerProps) => {
 							<Typography
 								sx={{
 									color: 'rgba(255,255,255,0.85)',
-									fontSize: 14,
+									fontSize: { xs: 12, sm: 13, md: 14 },
 									lineHeight: 1.5,
-									maxWidth: 520,
-									mb: 3,
+									maxWidth: { xs: '100%', md: 520 },
+									mb: { xs: 2, md: 3 },
 									display: '-webkit-box',
 									WebkitBoxOrient: 'vertical',
 									WebkitLineClamp: 6,
@@ -122,7 +141,12 @@ const MovieBannerComponent = ({ banners }: BannerProps) => {
 							</Typography>
 						}
 
-						<Stack direction='row' spacing={2} alignItems='center'>
+						<Stack
+							direction='row'
+							spacing={2}
+							alignItems='center'
+							sx={{ flexWrap: 'wrap', justifyContent: { xs: 'center', md: 'flex-start' } }}
+						>
 							<Button
 								variant='contained'
 								startIcon={<PlayArrowIcon />}
@@ -130,8 +154,8 @@ const MovieBannerComponent = ({ banners }: BannerProps) => {
 								disabled={Boolean(!banner.trailerUrl)}
 								target='_blank'
 								sx={{
-									px: 4,
-									py: 1.2,
+									px: { xs: 3, md: 4 },
+									py: { xs: 1, md: 1.2 },
 									background:
 										'linear-gradient(90deg,rgba(255, 84, 1, 1) 0%, rgba(252, 84, 0, 1) 50%, rgba(217, 181, 0, 1) 100%)',
 								}}
@@ -147,7 +171,7 @@ const MovieBannerComponent = ({ banners }: BannerProps) => {
 					spacing={1}
 					sx={{
 						position: 'absolute',
-						bottom: 24,
+						bottom: { xs: 12, md: 24 },
 						left: '50%',
 						transform: 'translateX(-50%)',
 					}}
@@ -173,11 +197,12 @@ const MovieBannerComponent = ({ banners }: BannerProps) => {
 					onClick={prev}
 					sx={{
 						position: 'absolute',
-						left: 16,
+						left: { xs: 8, md: 16 },
 						top: '50%',
 						transform: 'translateY(-50%)',
 						color: '#fff',
 						backgroundColor: 'rgba(0,0,0,0.4)',
+						display: { xs: 'none', sm: 'inline-flex' },
 					}}
 				>
 					<ArrowBackIosNewIcon />
@@ -187,11 +212,12 @@ const MovieBannerComponent = ({ banners }: BannerProps) => {
 					onClick={next}
 					sx={{
 						position: 'absolute',
-						right: 16,
+						right: { xs: 8, md: 16 },
 						top: '50%',
 						transform: 'translateY(-50%)',
 						color: '#fff',
 						backgroundColor: 'rgba(0,0,0,0.4)',
+						display: { xs: 'none', sm: 'inline-flex' },
 					}}
 				>
 					<ArrowForwardIosIcon />

@@ -44,13 +44,13 @@ export const MoviePage = () => {
 	}
 
 	return (
-		<Box sx={{ maxWidth: 1200, mx: 'auto', p: 3 }}>
+		<Box sx={{ maxWidth: 1200, mx: 'auto', p: { xs: 2, md: 3 } }}>
 			<Grid
 				container
 				spacing={3}
 				sx={{
 					display: 'grid',
-					gridTemplateColumns: '300px 1fr',
+					gridTemplateColumns: { xs: '1fr', md: '300px 1fr' },
 					gridTemplateRows: 'auto auto',
 				}}
 			>
@@ -61,7 +61,7 @@ export const MoviePage = () => {
 							image={item.posterUrl ?? '/no-poster.png'}
 							alt='Movie poster'
 							sx={{
-								height: '100%',
+								height: { xs: 360, sm: 420, md: '100%' },
 								objectFit: 'cover',
 							}}
 						/>
@@ -100,13 +100,15 @@ export const MoviePage = () => {
 
 				<Card
 					sx={{
-						p: 3,
+						p: { xs: 2, md: 3 },
 						display: 'flex',
 						flexDirection: 'column',
 						justifyContent: 'start',
 					}}
 				>
-					<Typography variant='h4'>{item?.name}</Typography>
+					<Typography variant='h4' sx={{ fontSize: { xs: 22, sm: 26, md: 32 } }}>
+						{item?.name}
+					</Typography>
 					<Typography variant='subtitle1' color='text.secondary'>
 						{item?.year} • {item?.genres?.map(upperCase).join(', ')} •{' '}
 						{item?.countries?.join(', ')}
@@ -114,8 +116,8 @@ export const MoviePage = () => {
 
 					<Card
 						sx={{
-							gridColumn: '1 / 3',
-							p: 3,
+							gridColumn: { xs: 'auto', md: '1 / 3' },
+							p: { xs: 2, md: 3 },
 						}}
 					>
 						<Typography variant='h6' gutterBottom>
@@ -126,7 +128,7 @@ export const MoviePage = () => {
 							{actors.map(actor => (
 								<Grid
 									key={actor.id}
-									size={{ xs: 4, sm: 2.4 }}
+									size={{ xs: 6, sm: 4, md: 2.4 }}
 									display='flex'
 									justifyContent='center'
 								>
@@ -135,14 +137,14 @@ export const MoviePage = () => {
 											display: 'flex',
 											flexDirection: 'column',
 											alignItems: 'center',
-											width: 96,
+											width: { xs: 88, sm: 96 },
 											textAlign: 'center',
 										}}
 									>
 										<Box
 											sx={{
-												width: 88,
-												height: 88,
+												width: { xs: 76, sm: 88 },
+												height: { xs: 76, sm: 88 },
 												borderRadius: '50%',
 												overflow: 'hidden',
 												mb: 1,
@@ -183,8 +185,8 @@ export const MoviePage = () => {
 
 				<Card
 					sx={{
-						gridColumn: '1 / 3',
-						p: 3,
+						gridColumn: { xs: 'auto', md: '1 / 3' },
+						p: { xs: 2, md: 3 },
 					}}
 				>
 					<Typography variant='h6' gutterBottom>
