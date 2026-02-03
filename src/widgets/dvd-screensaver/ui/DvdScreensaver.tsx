@@ -2,7 +2,7 @@ import { Box } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
 
 const IDLE_MS = 10000
-const LOGO_SIZE = { width: 220, height: 120 }
+const LOGO_SIZE = { width: 320, height: 220 }
 const SPEED = { x: 1.2, y: 0.9 }
 const DESKTOP_MIN_WIDTH = 768
 
@@ -108,9 +108,7 @@ export function DvdScreensaver() {
 		resetIdleTimer()
 
 		return () => {
-			events.forEach(event =>
-				window.removeEventListener(event, resetIdleTimer),
-			)
+			events.forEach(event => window.removeEventListener(event, resetIdleTimer))
 			if (idleTimerRef.current !== null) {
 				window.clearTimeout(idleTimerRef.current)
 			}
