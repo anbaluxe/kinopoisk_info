@@ -8,13 +8,35 @@ type Props = {
 	limit?: number
 }
 
+// Feature-хук: получаем DTO -> маппим в модель сущности для UI.
 export const useContentPreview = ({ year, limit = 6 }: Props) => {
 	const [movies, setMovies] = useState<MovieCardTypes[]>([])
 
 	useEffect(() => {
-		fetchMoviesByYear({ year, limit }).then(res => {
-			setMovies(res.docs.map(mapMovieToCard))
-		})
+		const controller = new AbortController()
+		let cancelled = false
+
+		fetchMoviesByYear({ year, limit }, controller.signal)
+			.then(res => {
+				if (!cancelled) {
+					setMovies(res.docs.map(mapMovieToCard))
+				}
+			})
+			.catch(error => {
+				const isAbort =
+					typeof error === 'object' &&
+					error !== null &&
+					'name' in error &&
+					error.name === 'AbortError'
+				if (!cancelled && !isAbort) {
+					setMovies([])
+				}
+			})
+
+		return () => {
+			cancelled = true
+			controller.abort()
+		}
 	}, [year, limit])
 
 	return movies

@@ -9,6 +9,7 @@ import {
 	IconButton,
 	Typography,
 } from '@mui/material'
+import { memo } from 'react'
 import { Link } from 'react-router'
 import type { MovieCardTypes } from '../model/card/card.types'
 
@@ -19,19 +20,16 @@ interface CardProps {
 }
 
 const getColor = (rating: number) => {
-	switch (true) {
-		case rating >= 9:
-			return 'gold'
-		case rating > 6 && rating < 9:
-			return 'green'
-		case rating < 6:
-			return 'red'
-		default:
-			break
-	}
+	if (rating >= 9) return 'gold'
+	if (rating > 6) return 'green'
+	return 'red'
 }
 
-export const MovieCard = ({ movie, toggleFavorite, isFavorite }: CardProps) => {
+const MovieCardComponent = ({
+	movie,
+	toggleFavorite,
+	isFavorite,
+}: CardProps) => {
 	return (
 		<Link to={`/movie/${movie.id}`}>
 			<Card
@@ -186,3 +184,6 @@ export const MovieCard = ({ movie, toggleFavorite, isFavorite }: CardProps) => {
 		</Link>
 	)
 }
+
+export const MovieCard = memo(MovieCardComponent)
+MovieCard.displayName = 'MovieCard'

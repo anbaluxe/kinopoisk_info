@@ -8,13 +8,35 @@ type Props = {
 	limit?: number
 }
 
+// Feature-хук: тянем DTO с деталями и маппим в баннерные сущности.
 export const useBannerList = ({ year, limit = 5 }: Props) => {
 	const [banners, setBanners] = useState<MovieBannerItem[]>([])
 
 	useEffect(() => {
-		fetchBannersByYear({ year, limit }).then(res => {
-			setBanners(res.docs.map(mapMovieToBanner))
-		})
+		const controller = new AbortController()
+		let cancelled = false
+
+		fetchBannersByYear({ year, limit }, controller.signal)
+			.then(res => {
+				if (!cancelled) {
+					setBanners(res.docs.map(mapMovieToBanner))
+				}
+			})
+			.catch(error => {
+				const isAbort =
+					typeof error === 'object' &&
+					error !== null &&
+					'name' in error &&
+					error.name === 'AbortError'
+				if (!cancelled && !isAbort) {
+					setBanners([])
+				}
+			})
+
+		return () => {
+			cancelled = true
+			controller.abort()
+		}
 	}, [year, limit])
 
 	return banners

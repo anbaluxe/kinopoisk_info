@@ -3,13 +3,14 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import { Box, Button, IconButton, Stack, Typography } from '@mui/material'
+import { memo } from 'react'
 import { useBannerSlider } from '../model/useBannerSlider'
 
 interface BannerProps {
 	banners: MovieBannerItem[]
 }
 
-export const MovieBanner = ({ banners }: BannerProps) => {
+const MovieBannerComponent = ({ banners }: BannerProps) => {
 	const { index, isAnimating, next, prev } = useBannerSlider(banners.length)
 
 	if (!banners.length) return null
@@ -199,3 +200,6 @@ export const MovieBanner = ({ banners }: BannerProps) => {
 		</Box>
 	)
 }
+
+export const MovieBanner = memo(MovieBannerComponent)
+MovieBanner.displayName = 'MovieBanner'

@@ -3,10 +3,24 @@ import { useFavoriteMovie } from '@/features/favorite-movie/model/useFavoriteMov
 import { useFavoriteList } from '@/shared/lib/useFavoriteList'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import { Box, Container, Grid, Pagination, Typography } from '@mui/material'
+import { useMemo } from 'react'
 export default function FavoritesPage() {
 	const { favorites, toggleFavorite, isFavorite } = useFavoriteMovie()
 
 	const { moviesOnPage, page, setPage, pageCount } = useFavoriteList(favorites)
+	const movieCards = useMemo(
+		() =>
+			moviesOnPage.map(movie => (
+				<Grid key={movie.id} size={{ xs: 12, sm: 6, md: 4 }}>
+					<MovieCard
+						movie={movie}
+						isFavorite={isFavorite(movie.id)}
+						toggleFavorite={toggleFavorite}
+					/>
+				</Grid>
+			)),
+		[moviesOnPage, isFavorite, toggleFavorite],
+	)
 
 	if (!favorites.length) {
 		return (
@@ -39,15 +53,7 @@ export default function FavoritesPage() {
 	return (
 		<Container maxWidth='xl'>
 			<Grid container spacing={4} sx={{ mb: 5, marginBlock: 5 }}>
-				{moviesOnPage.map(movie => (
-					<Grid key={movie.id} size={{ xs: 12, sm: 6, md: 4 }}>
-						<MovieCard
-							movie={movie}
-							isFavorite={isFavorite(movie.id)}
-							toggleFavorite={toggleFavorite}
-						/>
-					</Grid>
-				))}
+				{movieCards}
 			</Grid>
 			{pageCount > 1 && (
 				<Box sx={{ display: 'flex', justifyContent: 'center', mt: 6 }}>

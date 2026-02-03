@@ -12,16 +12,29 @@ export const useSearchMovie = (query: string) => {
 			return
 		}
 
+		const controller = new AbortController()
 		let cancelled = false
 
-		searchMoviesByName(query).then(res => {
-			if (!cancelled) {
-				setMovies(res.docs.map(mapMovieToSearchItem))
-			}
-		})
+		searchMoviesByName(query, controller.signal)
+			.then(res => {
+				if (!cancelled) {
+					setMovies(res.docs.map(mapMovieToSearchItem))
+				}
+			})
+			.catch(error => {
+				const isAbort =
+					typeof error === 'object' &&
+					error !== null &&
+					'name' in error &&
+					error.name === 'AbortError'
+				if (!cancelled && !isAbort) {
+					setMovies([])
+				}
+			})
 
 		return () => {
 			cancelled = true
+			controller.abort()
 		}
 	}, [query])
 

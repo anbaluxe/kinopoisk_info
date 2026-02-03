@@ -10,20 +10,24 @@ import {
 	Tooltip,
 	Typography,
 } from '@mui/material'
+import { useMemo } from 'react'
 import { useParams } from 'react-router'
+
+const upperCase = (str: string) =>
+	`${str.charAt(0).toUpperCase()}${str.slice(1)}`
 
 export const MoviePage = () => {
 	const { idMovie } = useParams<{ idMovie: string }>()
 	const items = useContentMovie({ id: Number(idMovie) })
 	const isLoading = items.length === 0
 	const item = items?.[0]
-	function upperCase(str: string) {
-		return `${str.charAt(0).toUpperCase() + str.slice(1)}`
-	}
-	const actors =
-		item?.persons
-			?.filter(p => p.enProfession === 'actor' && p.photo && p.name)
-			.slice(0, 10) || []
+	const actors = useMemo(
+		() =>
+			item?.persons
+				?.filter(p => p.profession === 'actor' && p.photo && p.name)
+				.slice(0, 10) || [],
+		[item?.persons],
+	)
 
 	if (isLoading) {
 		return <MoviePageSkeleton />
@@ -48,7 +52,7 @@ export const MoviePage = () => {
 					<Card sx={{ height: '100%' }}>
 						<CardMedia
 							component='img'
-							image={item.poster?.url}
+							image={item.posterUrl ?? '/no-poster.png'}
 							alt='Movie poster'
 							sx={{
 								height: '100%',
@@ -57,16 +61,18 @@ export const MoviePage = () => {
 						/>
 					</Card>
 
-					{item.videos ? (
+					{item.trailerUrl ? (
 						<Tooltip
-							title={item.videos ? 'Смотреть трейлер' : 'Трейлер недоступен'}
+							title={
+								item.trailerUrl ? 'Смотреть трейлер' : 'Трейлер недоступен'
+							}
 						>
 							<span>
 								<Button
 									variant='contained'
 									startIcon={<PlayArrowIcon />}
-									href={`${item?.videos?.trailers[0]?.url}`}
-									disabled={Boolean(!item?.videos?.trailers[0]?.url)}
+									href={`${item.trailerUrl}`}
+									disabled={Boolean(!item.trailerUrl)}
 									target='_blank'
 									sx={{
 										position: 'absolute',
@@ -96,9 +102,8 @@ export const MoviePage = () => {
 				>
 					<Typography variant='h4'>{item?.name}</Typography>
 					<Typography variant='subtitle1' color='text.secondary'>
-						{item?.year} •{' '}
-						{item?.genres?.map(el => upperCase(el.name)).join(', ')} •{' '}
-						{item?.countries?.map(el => el.name).join(', ')}
+						{item?.year} • {item?.genres?.map(upperCase).join(', ')} •{' '}
+						{item?.countries?.join(', ')}
 					</Typography>
 
 					<Card
@@ -180,7 +185,7 @@ export const MoviePage = () => {
 						Описание
 					</Typography>
 					<Typography variant='body1' color='text.secondary'>
-						{item.description}
+						{item.description || 'Описание отсутствует'}
 					</Typography>
 				</Card>
 			</Grid>

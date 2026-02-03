@@ -1,3 +1,4 @@
+// DTO — это «сырой» ответ API (nullable/optional поля остаются как есть).
 export type MoviePreviewDto = {
 	id: number
 	name: string
@@ -11,6 +12,7 @@ export type MoviePreviewDto = {
 	}
 }
 
+// DTO с деталями расширяет поля превью из API.
 export type MovieDetailsDto = MoviePreviewDto & {
 	year?: number
 	logo?: {
