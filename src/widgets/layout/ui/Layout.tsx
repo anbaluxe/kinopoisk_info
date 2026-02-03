@@ -1,10 +1,16 @@
 import { Header } from '@/widgets/header/ui/Header'
 import { Outlet, useMatches } from 'react-router'
 
+type RouteHandle = { hideHeader?: boolean }
+
+const hasRouteHandle = (value: unknown): value is RouteHandle => {
+	return typeof value === 'object' && value !== null && 'hideHeader' in value
+}
+
 export const Layout = () => {
 	const matches = useMatches()
 	const hideHeader = matches.some(
-		match => typeof match.handle === 'object' && match.handle?.hideHeader,
+		match => hasRouteHandle(match.handle) && Boolean(match.handle.hideHeader),
 	)
 	return (
 		<>
