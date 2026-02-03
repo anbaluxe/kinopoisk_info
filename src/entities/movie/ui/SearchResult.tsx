@@ -1,4 +1,5 @@
 import { Avatar, Box, Paper, Typography } from '@mui/material'
+import { memo } from 'react'
 import { Link } from 'react-router'
 import type { MovieSearchItem } from '../model/search/search.types'
 
@@ -6,7 +7,7 @@ interface SearchProps {
 	items: MovieSearchItem[]
 }
 
-export function SearchResults({ items }: SearchProps) {
+function SearchResultsComponent({ items }: SearchProps) {
 	const visibleItems = items.slice(0, 5)
 
 	return (
@@ -47,3 +48,6 @@ export function SearchResults({ items }: SearchProps) {
 		</Paper>
 	)
 }
+
+export const SearchResults = memo(SearchResultsComponent)
+SearchResults.displayName = 'SearchResults'

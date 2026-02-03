@@ -8,9 +8,30 @@ export const useContentMovie = ({ id }: { id: number }) => {
 	const [movies, setMovies] = useState<MovieDetails[]>([])
 
 	useEffect(() => {
-		fetchMovieById(id).then(res => {
-			setMovies(res.docs.map(mapMovieToDetails))
-		})
+		const controller = new AbortController()
+		let cancelled = false
+
+		fetchMovieById(id, controller.signal)
+			.then(res => {
+				if (!cancelled) {
+					setMovies(res.docs.map(mapMovieToDetails))
+				}
+			})
+			.catch(error => {
+				const isAbort =
+					typeof error === 'object' &&
+					error !== null &&
+					'name' in error &&
+					error.name === 'AbortError'
+				if (!cancelled && !isAbort) {
+					setMovies([])
+				}
+			})
+
+		return () => {
+			cancelled = true
+			controller.abort()
+		}
 	}, [id])
 
 	return movies

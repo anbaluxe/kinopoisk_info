@@ -19,9 +19,30 @@ export const useTopByYear = ({
 	useEffect(() => {
 		const apiType = type === 'films' ? '1' : '2'
 
-		fetchMoviesByYear({ year, limit, type: apiType }).then(res => {
-			setMovies(res.docs.map(mapMovieToCard))
-		})
+		const controller = new AbortController()
+		let cancelled = false
+
+		fetchMoviesByYear({ year, limit, type: apiType }, controller.signal)
+			.then(res => {
+				if (!cancelled) {
+					setMovies(res.docs.map(mapMovieToCard))
+				}
+			})
+			.catch(error => {
+				const isAbort =
+					typeof error === 'object' &&
+					error !== null &&
+					'name' in error &&
+					error.name === 'AbortError'
+				if (!cancelled && !isAbort) {
+					setMovies([])
+				}
+			})
+
+		return () => {
+			cancelled = true
+			controller.abort()
+		}
 	}, [year, type, limit])
 
 	return movies

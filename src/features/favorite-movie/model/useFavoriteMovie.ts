@@ -1,5 +1,6 @@
 import type { MovieCardTypes } from '@/entities/movie/model/card/card.types'
 import { useLocalStorage } from '@/shared/lib/useLocalStorage'
+import { useCallback, useMemo } from 'react'
 
 export const useFavoriteMovie = () => {
 	const [favorites, setFavorites] = useLocalStorage<MovieCardTypes[]>(
@@ -7,9 +8,17 @@ export const useFavoriteMovie = () => {
 		[],
 	)
 
-	const isFavorite = (id: number) => favorites.some(movie => movie.id === id)
+	const favoriteIds = useMemo(
+		() => new Set(favorites.map(movie => movie.id)),
+		[favorites],
+	)
 
-	const toggleFavorite = (movie: MovieCardTypes) => {
+	const isFavorite = useCallback(
+		(id: number) => favoriteIds.has(id),
+		[favoriteIds],
+	)
+
+	const toggleFavorite = useCallback((movie: MovieCardTypes) => {
 		setFavorites(prev => {
 			const exists = prev.some(m => m.id === movie.id)
 			if (exists) {
@@ -18,7 +27,10 @@ export const useFavoriteMovie = () => {
 
 			return [...prev, { ...movie, isFavorite: true }]
 		})
-	}
+	}, [setFavorites])
 
-	return { favorites, isFavorite, toggleFavorite }
+	return useMemo(
+		() => ({ favorites, isFavorite, toggleFavorite }),
+		[favorites, isFavorite, toggleFavorite],
+	)
 }

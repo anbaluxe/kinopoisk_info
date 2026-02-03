@@ -8,8 +8,10 @@ type FetchParams = {
 
 type FetchTopParams = FetchParams & { type?: '1' | '2' }
 
-// Низкоуровневые API-вызовы возвращают DTO, а не удобные модели приложения.
-export const fetchMoviesByYear = ({ year, limit, type }: FetchTopParams) => {
+export const fetchMoviesByYear = (
+	{ year, limit, type }: FetchTopParams,
+	signal?: AbortSignal,
+) => {
 	const typeQuery = type ? `field=typeNumber&search=${type}&` : ''
 	return kinoPoiskFetch<{ docs: MoviePreviewDto[] }>(
 		`${typeQuery}` +
@@ -17,24 +19,28 @@ export const fetchMoviesByYear = ({ year, limit, type }: FetchTopParams) => {
 			`field=rating.kp&search=7-10&` +
 			`sortField=rating.kp&sortType=1&` +
 			`limit=${limit}`,
+		signal,
 	)
 }
 
-// Получаем фильм по id (API возвращает массив docs с DTO).
-export const fetchMovieById = (id: number) =>
+export const fetchMovieById = (id: number, signal?: AbortSignal) =>
 	kinoPoiskFetch<{ docs: MovieDetailsDto[] }>(
 		`field=id&search=${id}&selectFields=poster&selectFields=videos&selectFields=name&selectFields=description&selectFields=genres&selectFields=countries&selectFields=persons&selectFields=year&`,
+		signal,
 	)
 
-// Поиск по названию: API возвращает превью DTO.
-export const searchMoviesByName = (query: string) =>
+export const searchMoviesByName = (query: string, signal?: AbortSignal) =>
 	kinoPoiskFetch<{ docs: MoviePreviewDto[] }>(
 		`field=name&search=${query}&limit=4`,
+		signal,
 	)
 
-// Для баннеров нужны детали: logo/video поля приходят в DTO.
-export const fetchBannersByYear = ({ year, limit }: FetchParams) => {
+export const fetchBannersByYear = (
+	{ year, limit }: FetchParams,
+	signal?: AbortSignal,
+) => {
 	return kinoPoiskFetch<{ docs: MovieDetailsDto[] }>(
 		`field=year&search=${year}&sortType=1&limit=${limit}&selectFields=poster&selectFields=videos&selectFields=name&selectFields=description&selectFields=logo`,
+		signal,
 	)
 }
