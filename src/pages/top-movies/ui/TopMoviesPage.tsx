@@ -4,15 +4,22 @@ import { useTopByYear } from '@/features/top-by-year/model/useTopByYear'
 import { MovieCardSkeleton } from '@/shared/ui/movie-card-skeleton/MovieCardSkeleton'
 import { Card, Container, Grid, Typography } from '@mui/material'
 import { useMemo } from 'react'
-import { useParams } from 'react-router'
+import { Navigate, useParams } from 'react-router'
 
 export const TopMoviesPage = () => {
 	const { type, year } = useParams<{
 		type: string
 		year: string
 	}>()
-	const contentType = type === 'films' ? 'films' : 'tv-show'
-	const movies = useTopByYear({ year: Number(year), type: contentType })
+	const contentType = type === 'films' || type === 'tv-show' ? type : null
+	const yearNumber = Number(year)
+	const currentYear = new Date().getFullYear()
+	const isValidYear =
+		Number.isFinite(yearNumber) && yearNumber >= 1888 && yearNumber <= currentYear
+	const movies = useTopByYear({
+		year: isValidYear ? yearNumber : currentYear,
+		type: contentType ?? 'films',
+	})
 	const { toggleFavorite, isFavorite } = useFavoriteMovie()
 
 	const isLoading = movies.length === 0
@@ -41,6 +48,10 @@ export const TopMoviesPage = () => {
 			)),
 		[movies, isFavorite, toggleFavorite],
 	)
+
+	if (!contentType || !isValidYear) {
+		return <Navigate to='/404' replace />
+	}
 
 	return (
 		<Container maxWidth='lg'>

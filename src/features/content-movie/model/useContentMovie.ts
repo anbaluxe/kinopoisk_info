@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 
 export const useContentMovie = ({ id }: { id: number }) => {
 	// Feature-хук: DTO -> доменная модель страницы.
-	const [movies, setMovies] = useState<MovieDetails[]>([])
+	const [movies, setMovies] = useState<MovieDetails[] | null>(null)
 
 	useEffect(() => {
 		const controller = new AbortController()

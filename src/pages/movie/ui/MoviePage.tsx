@@ -11,15 +11,17 @@ import {
 	Typography,
 } from '@mui/material'
 import { useMemo } from 'react'
-import { useParams } from 'react-router'
+import { Navigate, useParams } from 'react-router'
 
 const upperCase = (str: string) =>
 	`${str.charAt(0).toUpperCase()}${str.slice(1)}`
 
 export const MoviePage = () => {
 	const { idMovie } = useParams<{ idMovie: string }>()
-	const items = useContentMovie({ id: Number(idMovie) })
-	const isLoading = items.length === 0
+	const movieId = Number(idMovie)
+	const isValidId = Number.isFinite(movieId)
+	const items = useContentMovie({ id: movieId })
+	const isLoading = items === null
 	const item = items?.[0]
 	const actors = useMemo(
 		() =>
@@ -29,12 +31,16 @@ export const MoviePage = () => {
 		[item?.persons],
 	)
 
+	if (!isValidId) {
+		return <Navigate to='/404' replace />
+	}
+
 	if (isLoading) {
 		return <MoviePageSkeleton />
 	}
 
 	if (!item) {
-		return null
+		return <Navigate to='/404' replace />
 	}
 
 	return (
