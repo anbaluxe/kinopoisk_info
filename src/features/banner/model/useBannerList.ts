@@ -8,6 +8,7 @@ type Props = {
 	limit?: number
 }
 
+// Feature-хук: тянем DTO с деталями и маппим в баннерные сущности.
 export const useBannerList = ({ year, limit = 5 }: Props) => {
 	const [banners, setBanners] = useState<MovieBannerItem[]>([])
 

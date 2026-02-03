@@ -1,13 +1,15 @@
+import { mapMovieToDetails } from '@/entities/movie/model/details/details.mappers'
+import type { MovieDetails } from '@/entities/movie/model/details/details.types'
 import { fetchMovieById } from '@/shared/api/kinopoisk/queries'
-import type { MovieDetailsDto } from '@/shared/api/kinopoisk/types'
 import { useEffect, useState } from 'react'
 
 export const useContentMovie = ({ id }: { id: number }) => {
-	const [movies, setMovies] = useState<MovieDetailsDto[]>([])
+	// Feature-хук: DTO -> доменная модель страницы.
+	const [movies, setMovies] = useState<MovieDetails[]>([])
 
 	useEffect(() => {
 		fetchMovieById(id).then(res => {
-			setMovies(res.docs)
+			setMovies(res.docs.map(mapMovieToDetails))
 		})
 	}, [id])
 

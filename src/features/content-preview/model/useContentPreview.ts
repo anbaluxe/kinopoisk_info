@@ -8,6 +8,7 @@ type Props = {
 	limit?: number
 }
 
+// Feature-хук: получаем DTO -> маппим в модель сущности для UI.
 export const useContentPreview = ({ year, limit = 6 }: Props) => {
 	const [movies, setMovies] = useState<MovieCardTypes[]>([])
 
