@@ -1,5 +1,6 @@
 import { Box } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
+import { useLocation } from 'react-router'
 
 const IDLE_MS = 10000
 const LOGO_SIZE = { width: 320, height: 220 }
@@ -8,12 +9,14 @@ const DESKTOP_MIN_WIDTH = 768
 
 export function DvdScreensaver() {
 	const [isVisible, setIsVisible] = useState(false)
+	const location = useLocation()
 	const logoRef = useRef<HTMLDivElement | null>(null)
 	const rafRef = useRef<number | null>(null)
 	const idleTimerRef = useRef<number | null>(null)
 	const posRef = useRef({ x: 40, y: 40 })
 	const velocityRef = useRef({ x: SPEED.x, y: SPEED.y })
 	const isDesktopRef = useRef(true)
+	const isTouchDeviceRef = useRef(false)
 
 	useEffect(() => {
 		const checkDesktop = () => {
@@ -22,6 +25,9 @@ export function DvdScreensaver() {
 				setIsVisible(false)
 			}
 		}
+
+		isTouchDeviceRef.current =
+			'ontouchstart' in window || navigator.maxTouchPoints > 0
 
 		checkDesktop()
 		window.addEventListener('resize', checkDesktop)
@@ -86,7 +92,7 @@ export function DvdScreensaver() {
 
 	useEffect(() => {
 		const resetIdleTimer = () => {
-			if (!isDesktopRef.current) return
+			if (!isDesktopRef.current || isTouchDeviceRef.current) return
 			setIsVisible(false)
 			if (idleTimerRef.current !== null) {
 				window.clearTimeout(idleTimerRef.current)
@@ -114,6 +120,17 @@ export function DvdScreensaver() {
 			}
 		}
 	}, [])
+
+	useEffect(() => {
+		setIsVisible(false)
+		if (idleTimerRef.current !== null) {
+			window.clearTimeout(idleTimerRef.current)
+		}
+		idleTimerRef.current = window.setTimeout(() => {
+			if (!isDesktopRef.current || isTouchDeviceRef.current) return
+			setIsVisible(true)
+		}, IDLE_MS)
+	}, [location.pathname])
 
 	if (!isVisible) return null
 

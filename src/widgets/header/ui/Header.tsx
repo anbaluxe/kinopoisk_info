@@ -41,6 +41,11 @@ export function Header() {
 	const debouncedQuery = useDebounce(inputValue, 400)
 	const searchArr = useSearchMovie(debouncedQuery)
 
+	const handleSelect = () => {
+		setOpenSearch(false)
+		setInputValue('')
+	}
+
 	return (
 		<AppBar position='static' sx={{ backgroundColor: 'black' }}>
 			<Container maxWidth='xl'>
@@ -141,7 +146,7 @@ export function Header() {
 								}}
 							>
 								{searchArr.length !== 0 ? (
-									<SearchResults items={searchArr} />
+									<SearchResults items={searchArr} onSelect={handleSelect} />
 								) : (
 									<Paper elevation={4}>
 										<Box

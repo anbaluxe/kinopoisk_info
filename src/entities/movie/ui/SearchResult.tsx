@@ -5,15 +5,20 @@ import type { MovieSearchItem } from '../model/search/search.types'
 
 interface SearchProps {
 	items: MovieSearchItem[]
+	onSelect?: () => void
 }
 
-function SearchResultsComponent({ items }: SearchProps) {
+function SearchResultsComponent({ items, onSelect }: SearchProps) {
 	const visibleItems = items.slice(0, 5)
 
 	return (
 		<Paper elevation={4}>
 			{visibleItems.map(item => (
-				<Link to={`/movie/${item.id}`} key={item.id}>
+				<Link
+					to={`/movie/${item.id}`}
+					key={item.id}
+					onClick={() => onSelect?.()}
+				>
 					<Box
 						sx={{
 							height: 94,
