@@ -16,7 +16,7 @@ export default function HomePage() {
 		() =>
 			Array.from({ length: 6 }).map((_, index) => (
 				<Grid key={index} size={{ xs: 12, sm: 6, md: 4 }}>
-					<MovieCardSkeleton height={700} />
+					<MovieCardSkeleton height={{ xs: 560, sm: 620, md: 700 }} />
 				</Grid>
 			)),
 		[],

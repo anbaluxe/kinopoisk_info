@@ -39,18 +39,26 @@ export function NotFoundPage() {
 					<Box>
 						<Typography
 							variant='overline'
-							sx={{ letterSpacing: 2, opacity: 0.7 }}
+							sx={{ letterSpacing: 2, opacity: 0.7, fontSize: { xs: 10, md: 12 } }}
 						>
 							КИНОПОИСК
 						</Typography>
 
-						<Typography variant='h2' sx={{ fontWeight: 800, mt: 2 }}>
+						<Typography
+							variant='h2'
+							sx={{ fontWeight: 800, mt: 2, fontSize: { xs: 28, sm: 36, md: 48 } }}
+						>
 							404. Страница не найдена
 						</Typography>
 
 						<Typography
 							variant='body1'
-							sx={{ mt: 2, maxWidth: 520, color: 'rgba(255,255,255,0.7)' }}
+							sx={{
+								mt: 2,
+								maxWidth: 520,
+								color: 'rgba(255,255,255,0.7)',
+								fontSize: { xs: 13, sm: 14, md: 16 },
+							}}
 						>
 							Возможно, она была перемещена, или вы просто неверно указали
 							адрес страницы.
@@ -62,8 +70,8 @@ export function NotFoundPage() {
 							variant='contained'
 							sx={{
 								mt: 4,
-								px: 4,
-								py: 1.2,
+								px: { xs: 3, md: 4 },
+								py: { xs: 1, md: 1.2 },
 								background:
 									'linear-gradient(90deg,rgba(255, 84, 1, 1) 0%, rgba(252, 84, 0, 1) 50%, rgba(217, 181, 0, 1) 100%)',
 							}}

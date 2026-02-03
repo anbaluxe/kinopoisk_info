@@ -44,14 +44,28 @@ export function Header() {
 	return (
 		<AppBar position='static' sx={{ backgroundColor: 'black' }}>
 			<Container maxWidth='xl'>
-				<Toolbar>
+				<Toolbar
+					sx={{
+						flexWrap: { xs: 'wrap', md: 'nowrap' },
+						gap: { xs: 1, md: 2 },
+						py: { xs: 1, md: 0 },
+					}}
+				>
 					<IconButton edge='start' color='inherit' sx={{ mr: 2 }}>
 						<NavLink to={'/'}>
 							<img src='/favicon.svg' alt='Logo' width={50} height={50} />
 						</NavLink>
 					</IconButton>
 
-					<Box sx={{ display: 'flex', gap: 2, flexGrow: 1 }}>
+					<Box
+						sx={{
+							display: 'flex',
+							gap: { xs: 1, md: 2 },
+							flexGrow: 1,
+							flexWrap: 'wrap',
+							justifyContent: { xs: 'center', md: 'flex-start' },
+						}}
+					>
 						{[
 							{ element: 'Главная', path: '/' },
 							{ element: 'Фильмы', path: '/films' },
@@ -62,6 +76,9 @@ export function Header() {
 								key={label.element}
 								color='inherit'
 								sx={{
+									px: { xs: 1, md: 2 },
+									py: { xs: 0.5, md: 1 },
+									fontSize: { xs: 12, sm: 13, md: 14 },
 									'&:hover': {
 										background:
 											'linear-gradient(90deg,rgba(255,84,1,1) 0%, rgba(252,84,0,1) 50%, rgba(217,181,0,1) 100%)',
@@ -82,6 +99,8 @@ export function Header() {
 							display: 'flex',
 							alignItems: 'center',
 							gap: 1,
+							width: { xs: '100%', md: 'auto' },
+							justifyContent: { xs: 'flex-end', md: 'flex-start' },
 						}}
 					>
 						{openSearch && (
@@ -92,7 +111,7 @@ export function Header() {
 								sx={{
 									backgroundColor: 'white',
 									borderRadius: 1,
-									width: 240,
+									width: { xs: '100%', sm: 240 },
 								}}
 								value={inputValue}
 								onChange={e => setInputValue(e.currentTarget.value)}
@@ -117,7 +136,7 @@ export function Header() {
 									top: '100%',
 									right: 0,
 									mt: 1,
-									width: 300,
+									width: { xs: '100%', sm: 300 },
 									zIndex: 10,
 								}}
 							>

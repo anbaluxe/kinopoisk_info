@@ -20,8 +20,8 @@ export function TopYearBadge({ year, type }: TopYearBadgeProps) {
 
 					<Box
 						sx={{
-							width: 200,
-							height: 200,
+							width: { xs: 140, sm: 170, md: 200 },
+							height: { xs: 140, sm: 170, md: 200 },
 							borderRadius: '50%',
 							background: `radial-gradient(
             circle at center,
@@ -36,7 +36,7 @@ export function TopYearBadge({ year, type }: TopYearBadgeProps) {
 					>
 						<Typography
 							sx={{
-								fontSize: 48,
+								fontSize: { xs: 32, sm: 40, md: 48 },
 								fontWeight: 700,
 								lineHeight: 1,
 								fontFamily: 'Inter, sans-serif',
@@ -50,7 +50,7 @@ export function TopYearBadge({ year, type }: TopYearBadgeProps) {
 					<Typography
 						sx={{
 							mt: 2,
-							fontSize: 18,
+							fontSize: { xs: 14, sm: 16, md: 18 },
 							opacity: 1,
 							textAlign: 'center',
 						}}

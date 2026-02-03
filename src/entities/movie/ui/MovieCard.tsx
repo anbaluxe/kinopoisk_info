@@ -34,7 +34,7 @@ const MovieCardComponent = ({
 		<Link to={`/movie/${movie.id}`}>
 			<Card
 				sx={{
-					height: 700,
+					height: { xs: 560, sm: 620, md: 700 },
 					borderRadius: 2,
 					overflow: 'hidden',
 					display: 'flex',
@@ -43,7 +43,7 @@ const MovieCardComponent = ({
 			>
 				<Box
 					sx={{
-						height: 500,
+						height: { xs: 360, sm: 420, md: 500 },
 						position: 'relative',
 						bgcolor: 'white',
 						flexShrink: 0,
@@ -110,7 +110,7 @@ const MovieCardComponent = ({
 						justifyContent: 'space-between',
 					}}
 				>
-					<Typography variant='h6' noWrap>
+					<Typography variant='h6' noWrap sx={{ fontSize: { xs: 16, md: 18 } }}>
 						{movie.name}
 					</Typography>
 
@@ -119,6 +119,7 @@ const MovieCardComponent = ({
 						color='text.secondary'
 						sx={{
 							mt: 0.5,
+							fontSize: { xs: 12, md: 14 },
 							display: '-webkit-box',
 							WebkitLineClamp: 2,
 							WebkitBoxOrient: 'vertical',
